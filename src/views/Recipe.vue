@@ -24,7 +24,8 @@
 					:key="item.Uniq_name"
 					:class="[cataStyle(index)]"
 					:style="bgImg( key+`-`+item.itemID+`.jpg`)"
-					class="recipe-catalog">
+					class="recipe-catalog"
+					@click="searchRecipe(item.item, 'viewtimes', 'desc', 'recipe_catalog', [key,item.itemID])">
 					<p class="recipe-catalog-item">
 						{{item.item}}
 					</p>
@@ -68,6 +69,7 @@ export default {
 													table: key ,
 													keyword: "all"})
 		}
+		console.log(this.catalogs)
 		this.ingredientData = await this.getIngredient({
 												table: "Ingredient" ,
 												keyword: "all",
@@ -101,6 +103,12 @@ export default {
 		resetDrag(result) {
 			this.serchResultRecipes = result
 			this.dragKey += 1
+		},
+		searchRecipeData(key, itemID) {
+			console.log("key",key)
+			console.log("itemID",itemID)
+			//[catalogs[key]][catalogs[key].data.itemID].item, 'viewtimes', 'desc', 'recipe_catalog', [catalogs[key],(parseInt(catalogs[key].data.itemID)+1)]
+			return null
 		}
 	},
 	watch: {

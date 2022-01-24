@@ -1,5 +1,6 @@
 <template>
     <div id="login" class="login">
+        <div class="close" @click="closeLogin"></div>
         <form>
         <table class="login-table">
             <tbody>
@@ -67,15 +68,29 @@ export default {
         background: $primary-g-dark;
         box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.6);
         text-align: left;
-        position: absolute;
-        top: 50%;
-        left: 50%;
+        position: fixed;
+        top: 50vh;
+        left: 50vw;
         transform: translate(-50%,-50%);
         border-radius: 10px;
-        padding: 30px 50px;
+        padding: 50px;
 
         .err {
             margin: 20px 0;
+        }
+
+        .close {
+            width: 2rem;
+            height: 2rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            &:after{
+                display: inline-block;
+                font-weight: 900;
+                font-size: 2rem;
+                content: "\00d7"; /* This will render the 'X' */
+            }
         }
     }
 
@@ -101,8 +116,8 @@ export default {
         box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.6);
         text-align: center;
         position: absolute;
-        top: 50%;
-        left: 50%;
+        top: 50vh;
+        left: 50vw;
         margin: -200px 0 0 -300px;
         border-radius: 10px;
         padding: 3vw;

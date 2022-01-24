@@ -14,7 +14,7 @@ export const userMixin = {
         },
     },
     methods: { 
-        ...mapActions('User', ['getLoginPOP','logout','getUserStockIGD']),
+        ...mapActions('User', ['getLoginPOP','logout','getUserStockIGD','updateUserInfo']),
         clickLogin(page) {
             console.log("click")
             if(page !== "recipe"){
@@ -22,6 +22,9 @@ export const userMixin = {
                 this.$router.push(page) 
                 : this.getLoginPOP(true)
             }
+        },
+        closeLogin() {
+            this.getLoginPOP(false)
         },
         clickLogout() {
             console.log("Log out")

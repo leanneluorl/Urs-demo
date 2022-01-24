@@ -44,6 +44,7 @@ const User = {
                     commit('setUser', res.data)  
                     commit('setUserID', res.data.UserID)  
                     commit('setloginPOP', false)  
+                    alert("Login success!")
                 }
                 return res.data
             })
@@ -63,18 +64,34 @@ const User = {
                 return res.data
             })
         },
-        // searchRecipebyIGD(c, data) {
-        //     return new Promise((resolve, reject) => {
-        //         recipe.searchRecipebyIGD(data).then(res => {
-        //             resolve(res);
-        //         }).catch(err => {
-        //             if (err.response.status == 400) {
-        //                 reject(err);
-        //             }
-        //         })
-        //     });
-
+        // updateUserInfo: ({ commit }, params) => {
+        //     return user.updateUserInfo(params).then(res => {
+        //         cookie.remove('user-data')
+        //         cookie.set('user-data', res.data)
+        //         commit('setUser', res.data)
+        //         console.log(res)  
+        //         alert("User Info Updated!")
+        //         return res.data
+        //     })
         // },
+        updateUserInfo({ commit }, data) {
+            return new Promise((resolve, reject) => {
+                user.updateUserInfo(data).then(res => {
+                    resolve(res);
+                    cookie.remove('user-data')
+                    cookie.set('user-data', res.data)
+                    commit('setUser', res.data)
+                    console.log(res)  
+                    alert("User Info Updated!")
+                    return res.data
+                }).catch(err => {
+                    if (err.response.status == 400) {
+                        reject(err);
+                    }
+                })
+            });
+
+        },
     },
     getters: {
         // recipesGetter: (state) => {

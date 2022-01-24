@@ -1,7 +1,7 @@
 <template>
 	<div class="recipe-catalog-box">
 		<div :style="bgImg( typeData[0]+`-`+typeData[1]+`.jpg`)"
-			class="recipe-catalog">
+			class="recipe-catalog page">
 			<p class="recipe-catalog-title">
 				{{searchKeywordData}}
 			</p>
@@ -57,9 +57,12 @@ export default {
 
 <style lang="scss">
 	.recipe-catalog {
-		margin: 3vw auto;
-		width: calc( 100% - 220px);
-		height: 100px;
+		&.page{
+			width: calc( 100% - 220px);
+			height: 100px;
+			margin: 3vw auto;
+		}
+		
 		background-position: center;
 		background-size: cover;
 		border-radius: 1.5vw;

@@ -1,31 +1,61 @@
 <template>
     <div class="user-box">
+        <h1 class="section-title main">User Info
+            <button @click="clickEdit" ><h6>Edit</h6></button>
+        </h1>
         <div class="user-data">
             <p v-for="(data, key) in userData" :key="key">
                 {{key}} : {{data}}
             </p>
         </div>
         <button class="logout" @click="clickLogout()"><h3>Log out</h3></button>
+        <UserEditor @close-edit="closeEdit()" v-show="UserEditorPOP"/>
     </div>
 </template>
 
 <script>
 import cookie from 'vue-cookies'
+import UserEditor from '@/components/user/UserEditor.vue';
 export default {
-    data: () => {
+    name: 'User',
+    data:() => {
         return {
-
+            UserEditorPOP: false,
         }
+    },
+    components: {
+        UserEditor
     },
     created: () => {
         // console.log('this.user',this.userData)
         console.log("cookie.get('user-data')",cookie.get('user-data'))
+    },
+    methods: {
+        clickEdit() {
+            this.UserEditorPOP = true
+            console.log(this.UserEditorPOP)
+        },
+        closeEdit() {
+            this.UserEditorPOP = false
+            console.log(this.UserEditorPOP)
+        }
     }
 }
 </script>
 
 <style lang="scss">
     .user-box {
+        position: relative;
+        .section-title{
+            button {
+                background-color: $primary-g;
+                width: 60px;
+                height: 25px;
+                h6{
+                    vertical-align: middle;
+                }
+            }
+        }
         .user-data{
             text-align: left;
             margin: 1vw 0;
