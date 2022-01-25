@@ -9,7 +9,7 @@
             </p>
         </div>
         <button class="logout" @click="clickLogout()"><h3>Log out</h3></button>
-        <UserEditor @close-edit="closeEdit()" v-show="UserEditorPOP"/>
+        <UserEditor v-show="userEditorPOP"/>
     </div>
 </template>
 
@@ -20,7 +20,6 @@ export default {
     name: 'User',
     data:() => {
         return {
-            UserEditorPOP: false,
         }
     },
     components: {
@@ -32,12 +31,8 @@ export default {
     },
     methods: {
         clickEdit() {
-            this.UserEditorPOP = true
-            console.log(this.UserEditorPOP)
-        },
-        closeEdit() {
-            this.UserEditorPOP = false
-            console.log(this.UserEditorPOP)
+            this.getUserEditorPOP(true)
+            console.log(this.userEditorPOP)
         }
     }
 }

@@ -49,7 +49,8 @@ export default {
             })
         },
         clickCloseEdit() {
-            this.$emit('close-edit',false)
+            //this.$emit('close-edit',false)
+            this.getUserEditorPOP(false)
         }
     }
 };

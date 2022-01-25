@@ -1,18 +1,23 @@
 import Vue from 'vue'
 import { mapState, mapActions, mapGetters } from 'vuex';
+import recipe from '@/store/recipe'
 
 export const recipeMixin = {
     data:() =>{
         return {
+            allAction: ''
         }
     },
     computed: { 
         ...mapState('Recipes', ['recipes','catalog', 'searchKeyword', 'type']),
         ...mapGetters('Recipes', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter']),
         recipesData() {
+            
             return this.recipesGetter
         },
         foodtype() {
+            console.log('foodtype')
+            console.log('Getters:', Reflect.ownKeys(recipe.Recipe.getters))
             return this.foodtypeGetter
         },
         ingredient() {
@@ -32,7 +37,7 @@ export const recipeMixin = {
         }
     },
     methods: { 
-        ...mapActions('Recipes', ['getRecipes','getCatalog','getIngredient','getFoodtype','searchRecipebyIGD','getSearchKeyword','getType']),
+        ...mapActions('Recipes', ['getRecipes','getCatalog','getIngredient','getFoodtype','searchRecipebyIGD','getSearchKeyword','getType', 'getRecipeContent']),
         async searchRecipe(keyword, order, sort, jumpTo, type) {
             console.log(keyword, order, sort)
             

@@ -10,8 +10,8 @@ const User = {
         error: {},
         user: cookie.get('user-data') || '',
         loginPOP: false,
-        userIngredientStock: {}
-        
+        userIngredientStock: {},
+        userEditorPOP: false
     }),
     mutations: {
         setUserID:  (state, userID) => {
@@ -22,6 +22,9 @@ const User = {
         },
         setloginPOP: (state, loginPOP) => {
             state.loginPOP = loginPOP;
+        },
+        setUserEditorPOP: (state, status) => {
+            state.userEditorPOP = status;
         },
         setUserIngredientStock: (state, userIngredientStock) => {
             state.userIngredientStock = userIngredientStock;
@@ -52,6 +55,9 @@ const User = {
         getLoginPOP: ({ commit }, status) => {
             commit('setloginPOP', status)  
         },
+        getUserEditorPOP: ({ commit }, status) => {
+            commit('setUserEditorPOP', status)  
+        },
         logout: ({ commit }) => {
             cookie.remove('user-data')
             cookie.remove('user-id')
@@ -64,16 +70,6 @@ const User = {
                 return res.data
             })
         },
-        // updateUserInfo: ({ commit }, params) => {
-        //     return user.updateUserInfo(params).then(res => {
-        //         cookie.remove('user-data')
-        //         cookie.set('user-data', res.data)
-        //         commit('setUser', res.data)
-        //         console.log(res)  
-        //         alert("User Info Updated!")
-        //         return res.data
-        //     })
-        // },
         updateUserInfo({ commit }, data) {
             return new Promise((resolve, reject) => {
                 user.updateUserInfo(data).then(res => {
@@ -81,7 +77,7 @@ const User = {
                     cookie.remove('user-data')
                     cookie.set('user-data', res.data)
                     commit('setUser', res.data)
-                    console.log(res)  
+                    commit('setUserEditorPOP', false)  
                     alert("User Info Updated!")
                     return res.data
                 }).catch(err => {

@@ -40,4 +40,11 @@ export default {
             data
         })
     },
+    getRecipeContent: (params) => {
+        const recipeID = params.recipeID
+        return axios({
+            url: `${recipeApiURL}/${recipeID}`,
+            method: 'get'
+        })
+    },
 }

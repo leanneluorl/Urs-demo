@@ -16,8 +16,7 @@ const Recipe = {
         instruction: {},
         recipeIngredient: {},
         searchKeyword: 'test',
-        type: []
-        
+        type: [],
     }),
     mutations: {
         setRecipes: (state, recipes) => {
@@ -83,7 +82,18 @@ const Recipe = {
                     }
                 })
             });
-
+        },
+        getRecipeContent: (c, params) => {
+            return recipe.getRecipeContent(params).then(res => {
+                console.log(res.data)
+                return res.data
+            })
+        },
+        getRecipeIngredient: ({ commit }, params) => {
+            return recipe.getRecipeIngredient(params).then(res => {
+                commit('setIngredient', res.data)  
+                return res.data
+            })
         },
         getSearchKeyword: ({ commit }, data) => {
             commit('setSearchKeyword', data)  
@@ -91,6 +101,7 @@ const Recipe = {
         getType: ({ commit }, data) => {
             commit('setType', data)  
         },
+        
     },
     getters: {
         recipesGetter: (state) => {

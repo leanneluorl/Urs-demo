@@ -1,7 +1,8 @@
 <template>
-    <div class="recipe-link">
+    <router-link class="recipe-link" 
+        :to="{ name: 'RecipeContent', params: { recipeID: recipe.RecipeID}}">
         <h5 class="recepi-link-title">{{recipe.RecipeTitle}}</h5> 
-        <div class="recipe-link-main-image-wrap"
+        <div class="recipe-link-main-image-wrap" 
             :style="bgImg( `recipe-`+recipe.RecipeID+`-main.jpg`)">
             <!-- <img 
                 @error="setAltImg"
@@ -10,7 +11,7 @@
                 class="recipe-link-main-image"
                 > -->
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script>

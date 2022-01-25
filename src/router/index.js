@@ -30,6 +30,11 @@ export const routes = [
     component: () => import('../views/RecipeCatalog.vue')
   },
   {
+    path: '/recipe/:recipeID',
+    name: 'RecipeContent',
+    component: () => import('@/components/recipe/RecipeContent.vue')
+  },
+  {
     path: '/rummage',
     name: 'Rummage',
     component: () => import('../views/Rummage.vue')

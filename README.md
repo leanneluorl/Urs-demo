@@ -1,4 +1,4 @@
-# f2e-week1
+# UrKitchen
 
 ## Project setup
 ```

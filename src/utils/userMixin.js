@@ -7,14 +7,14 @@ export const userMixin = {
         }
     },
     computed: { 
-        ...mapState('User', ['user','loginPOP','userID']),
+        ...mapState('User', ['user','loginPOP','userID','userEditorPOP']),
         ...mapGetters('Recipes', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter']),
         userData() {
             return this.user
         },
     },
     methods: { 
-        ...mapActions('User', ['getLoginPOP','logout','getUserStockIGD','updateUserInfo']),
+        ...mapActions('User', ['getLoginPOP','logout','getUserStockIGD','updateUserInfo','getUserEditorPOP']),
         clickLogin(page) {
             console.log("click")
             if(page !== "recipe"){
