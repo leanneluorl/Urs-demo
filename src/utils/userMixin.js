@@ -8,7 +8,7 @@ export const userMixin = {
     },
     computed: { 
         ...mapState('User', ['user','loginPOP','userID','userEditorPOP']),
-        ...mapGetters('Recipes', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter']),
+        ...mapGetters('User', []),
         userData() {
             return this.user
         },

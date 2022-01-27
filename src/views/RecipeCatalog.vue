@@ -36,12 +36,8 @@ export default {
 		}
 	},
 	created: function() {
-		console.log('this.searchKeywordData',this.searchKeywordData);
-		console.log('this.search',this.typeData);
-		console.log('this.search',this.typeData[0]);
-		console.log('this.search',this.typeData[1]);
-		console.log(this.cuisine)    	
-		console.log(this.diettype)
+		console.log("this.cuisine",this.cuisine)    	
+		console.log("this.diettype",this.diettype)
     },
 	updated: function(){
 		

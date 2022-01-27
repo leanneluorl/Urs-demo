@@ -55,7 +55,6 @@ const Recipe = {
         getCatalog: ({ commit }, params) => {
             return recipe.getTable(params).then(res => {
                 const dataSetter = 'set' + params.table.charAt(0).toUpperCase() + params.table.slice(1);
-                console.log(dataSetter );
                 commit( dataSetter, res.data) 
                 return res.data
             })
@@ -84,17 +83,28 @@ const Recipe = {
             });
         },
         getRecipeContent: (c, params) => {
-            return recipe.getRecipeContent(params).then(res => {
-                console.log(res.data)
-                return res.data
+            return Promise.all( [
+                recipe.getRecipeContent(params),
+                recipe.getRecipeIngredient(params)
+            ])
+            .then( (ress) => {
+                ress = ress.map( ress => ress.data )
+                console.log("RecipeContent",ress)
+                return ress
             })
         },
-        getRecipeIngredient: ({ commit }, params) => {
-            return recipe.getRecipeIngredient(params).then(res => {
-                commit('setIngredient', res.data)  
-                return res.data
-            })
-        },
+        // getRecipeContent: (c, params) => {
+        //     return recipe.getRecipeContent(params).then(res => {
+        //         console.log("RecipeContent",res.data)
+        //         return res.data
+        //     })
+        // },
+        // getRecipeIngredient: ({ commit }, params) => {
+        //     return recipe.getRecipeIngredient(params).then( res => {
+        //         commit('setIngredient', res.data)  
+        //         return res.data
+        //     })
+        // },
         getSearchKeyword: ({ commit }, data) => {
             commit('setSearchKeyword', data)  
         },

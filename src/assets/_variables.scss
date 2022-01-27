@@ -2,6 +2,8 @@ $primary-g: #A3F4B9;
 $primary-g-dark: #6ED68A;
 $primary-g-extra-dark: #216433;
 $primary-g-light: #A2FFA9;
+$primary-g-extra-light: #F0FFF6;
+$primary-g-extra: #EDFBDC;
 $primary-y: #FFF1B9;
 $primary-g-filter: invert(85%) sepia(4%) saturate(2591%) hue-rotate(59deg) brightness(97%) contrast(73%);
 $primary-o: #E1AB43;
@@ -12,5 +14,5 @@ $light-grey: #DADADA;
 $grey: #C4C4C4;
 
 $border: #B6B6B6;
-$txt: #5C5C5C;
+$txt: $primary-g-extra-dark;
 

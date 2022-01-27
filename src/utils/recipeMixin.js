@@ -1,23 +1,31 @@
 import Vue from 'vue'
 import { mapState, mapActions, mapGetters } from 'vuex';
-import recipe from '@/store/recipe'
+// import recipe from '@/store/recipe'
 
 export const recipeMixin = {
     data:() =>{
         return {
-            allAction: ''
+            allAction: '',
+            
         }
     },
     computed: { 
-        ...mapState('Recipes', ['recipes','catalog', 'searchKeyword', 'type']),
-        ...mapGetters('Recipes', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter']),
+        ...mapState('Recipe', ['recipes','catalog', 'searchKeyword', 'type']),
+        ...mapGetters('Recipe', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter']),
+        recipeActions(){
+            var actions =
+            Reflect.ownKeys(this.$store._actions).filter( action => action.includes('Recipe/')
+            )
+            return actions.map( action => action.replace('Recipe/','')
+            )        
+        },
         recipesData() {
-            
             return this.recipesGetter
         },
         foodtype() {
             console.log('foodtype')
-            console.log('Getters:', Reflect.ownKeys(recipe.Recipe.getters))
+            console.log(this.$store)
+            console.log('Actions:', this.recipeActions)
             return this.foodtypeGetter
         },
         ingredient() {
@@ -37,7 +45,7 @@ export const recipeMixin = {
         }
     },
     methods: { 
-        ...mapActions('Recipes', ['getRecipes','getCatalog','getIngredient','getFoodtype','searchRecipebyIGD','getSearchKeyword','getType', 'getRecipeContent']),
+        ...mapActions('Recipe', ['getRecipes','getCatalog','getIngredient','getFoodtype','searchRecipebyIGD','getSearchKeyword','getType', 'getRecipeContent']),
         async searchRecipe(keyword, order, sort, jumpTo, type) {
             console.log(keyword, order, sort)
             

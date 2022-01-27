@@ -3,11 +3,13 @@
 		<Header />
 		<router-view/>
 		<Login v-show="loginPOP" />
+		<Footer />
 	</div>
 </template>
 
 <script>
 import Header from './components/layout/Header.vue';
+import Footer from './components/layout/Footer.vue';
 import Login from '@/components/function/Login.vue';
 import { mapState } from 'vuex';
 export default {
@@ -15,6 +17,7 @@ export default {
 	components: {
         // 'Navbar': () => import(`components/Nav.vue`)
 		Header,
+		Footer,
 		Login
 	},
 	computed: {

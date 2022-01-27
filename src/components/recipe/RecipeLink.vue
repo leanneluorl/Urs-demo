@@ -47,8 +47,7 @@ export default {
         width: 24%;
         margin: .5%;
         &-main-image-wrap{
-            background-size: cover;
-            background-position: center center;
+            @extend .background-image;
             @include psuedo-height($height:85%);
         }
         h5 {
