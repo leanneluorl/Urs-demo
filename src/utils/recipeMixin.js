@@ -87,7 +87,18 @@ export const recipeMixin = {
             var top = element.offsetTop;
         console.log("scrollTo()")
             window.scrollTo(0, top);
-        }
+        },
+        groupBy(objectArray, property) {
+			return objectArray.reduce((acc, obj) => {
+				const key = obj[property];
+				if (!acc[key]) {
+					acc[key] = [];
+				}
+				// Add object to list for given key's value
+				acc[key].push(obj);
+				return acc;
+			}, {});
+		}
     }
 };
 

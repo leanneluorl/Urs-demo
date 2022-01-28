@@ -126,17 +126,6 @@ export default {
             this.$emit("resetDrag",'')
             
         },
-        groupBy(objectArray, property) {
-			return objectArray.reduce((acc, obj) => {
-				const key = obj[property];
-				if (!acc[key]) {
-					acc[key] = [];
-				}
-				// Add object to list for given key's value
-				acc[key].push(obj);
-				return acc;
-			}, {});
-		}
     },
     created: function() {
         console.log("RM",this.ingredientData)
@@ -150,7 +139,7 @@ export default {
         padding: 2.5%;
         background-color: $primary-g;
         filter: brightness(0.95);
-        padding: 0 110px;
+        padding: 0 5vw;
         @media only screen and (max-width: 600px) {
             margin: 0 0 0 110px;
             button {

@@ -7,13 +7,13 @@
             <tr>
                 <td>User ID:</td>
                 <td>
-                <input type="text" v-model="uid" />
+                <input type="text" v-model="uid" autocomplete />
                 </td>
             </tr>
             <tr>
                 <td>Password:</td>
                 <td>
-                <input type="password" name="password" v-model="pwd" />
+                <input type="password" name="password" v-model="pwd" autocomplete/>
                 </td>
             </tr>
             <tr>

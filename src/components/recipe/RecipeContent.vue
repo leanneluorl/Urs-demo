@@ -29,6 +29,13 @@
         </div>
         <div class="recipe_igd">
             <h3 class="recipe_igd_title">Ingredient</h3> 
+            <div class="recipe_igd_foodtype"
+                :v-for="(item, key, index) in recipeIGD"
+                :key="key">
+                <h6 class="recipe_igd_foodtype-title">
+                    {{ key }} {{item}}
+                </h6>
+            </div>
         </div>
     </section>
 </template>
@@ -39,6 +46,7 @@ export default {
         return {
             recipeContent: {},
             recipeInfo: {},
+            recipeIGD: {},
             isFetch: false
             //recipeID: async function(){await this.$route.params.recipeID}
         }
@@ -49,11 +57,13 @@ export default {
             recipeID: this.$route.params.recipeID
         })
         .then( (res) => {
-            this.isFetch = true
             this.recipeInfo = res[0][0]
+            this.recipeIGD = this.groupBy(res[1], "FoodType")
+            this.isFetch = true
         })
         console.log("recipeID",this.$route.params.recipeID);
         console.log("this.recipeInfo", this.recipeInfo);
+        console.log("this.recipeIGD", this.recipeIGD);
     },
     computed: {
         
