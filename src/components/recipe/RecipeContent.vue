@@ -1,9 +1,9 @@
 <template>
-    <section class="recipe" v-if="isFetch"> 
+    <section class="recipe" v-if="isFetch">
         <h1 class="section-title main recipe_title">
             {{ recipeInfo.RecipeTitle }}
         </h1>
-        <div class="recipe-main-image" 
+        <div class="recipe-main-image"
             :style="bgImg( `recipe-`+recipeID+`-main.jpg`)">
         </div>
         <div class="recipe_info">
@@ -28,13 +28,35 @@
             </div>
         </div>
         <div class="recipe_igd">
-            <h3 class="recipe_igd_title">Ingredient</h3> 
+            <h3 class="recipe_igd_title recipe_subtitle">Ingredient</h3>
             <div class="recipe_igd_foodtype"
-                :v-for="(item, key, index) in recipeIGD"
-                :key="key">
+                v-for="(foodtype, key, index) in recipeIGD"
+                :key="index">
                 <h6 class="recipe_igd_foodtype-title">
-                    {{ key }} {{item}}
+                    {{key}}
                 </h6>
+                <div class="recipe_igd_foodtype_item_wrap"
+                v-for="(item, index) in foodtype"
+                :key="item.FoodType+'-'+index">
+                <p class="recipe_igd_foodtype_item">{{item.IngredientID}}</p>
+                <p class="recipe_igd_foodtype_item">{{item.Amount}}</p>
+                <p class="recipe_igd_foodtype_item">{{item.Unit}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="recipe_instru">
+            <h3 class="recipe_instru_title recipe_subtitle">Instruction</h3>
+            <div class="recipe_instru_wrap"
+                v-for="Instru in recipeInstru"
+                :key="'step-'+Instru.StepNo">
+                <div class="recipe_instru-img"></div>
+                <div class="recipe_instru-p_wrap">
+                    <h2 class="recipe_instru-p-title">
+                        Step {{Instru.StepNo}}
+                    </h2>
+                    <p class="recipe_instru-p_item">{{Instru.Instruction}}</p>
+                </div>
+
             </div>
         </div>
     </section>
@@ -47,6 +69,7 @@ export default {
             recipeContent: {},
             recipeInfo: {},
             recipeIGD: {},
+            recipeInstru: {},
             isFetch: false
             //recipeID: async function(){await this.$route.params.recipeID}
         }
@@ -59,14 +82,16 @@ export default {
         .then( (res) => {
             this.recipeInfo = res[0][0]
             this.recipeIGD = this.groupBy(res[1], "FoodType")
+            this.recipeInstru = res[2]
             this.isFetch = true
         })
         console.log("recipeID",this.$route.params.recipeID);
         console.log("this.recipeInfo", this.recipeInfo);
         console.log("this.recipeIGD", this.recipeIGD);
+        console.log("this.recipeInstru", this.recipeInstru);
     },
     computed: {
-        
+
     },
     watch: {
         recipeContent: {
@@ -101,7 +126,7 @@ export default {
                 float: left;
                 width: 50%;
                 @extend .flex;
-                
+
                 &_part1-title {
                     margin-bottom: 0.5rem;
                 }
@@ -133,13 +158,63 @@ export default {
                     }
                 }
             }
-            
-            
+
+
+        }
+        &_subtitle {
+            color: $primary-g-dark;
+            line-height: 4rem;
+            font-weight: 700;
         }
         &_igd {
-            h3 {
-                color: $primary-g-dark;
-                line-height: 4rem;
+            &_foodtype {
+                &-title {
+                    background-color: $primary-g-extra;
+                    line-height: 2rem;
+                }
+                &_item {
+                    &_wrap {
+                        @extend .flex;
+                        justify-content: center;
+                        padding: 1vw 4vw;
+                        border-bottom: dotted 1px $primary-g-extra;
+                        p {
+                            min-width: 25%;
+                            text-align: right;
+                            &:first-child {
+                                text-align: left;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+
+        }
+        &_instru {
+            &_wrap {
+                @extend .flex;
+                &:nth-of-type(even){
+                    flex-direction: row-reverse;
+                }
+            }
+            &-img {
+                width: 25%;
+                @include psuedo-height($height:100%);
+                background-color: $primary-g;
+            }
+            &-p {
+                &-title {
+                    color: $primary-g;
+                    font-weight: 700;
+                }
+                &_wrap {
+                    text-align: left;
+                    width: 75%;
+                    padding: 2vw;
+                }
             }
         }
     }

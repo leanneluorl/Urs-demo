@@ -48,26 +48,26 @@ const Recipe = {
     actions: {
         getRecipes: ({ commit }, params) => {
             return recipe.getRecipes(params).then(res => {
-                commit('setRecipes', res.data)  
+                commit('setRecipes', res.data)
                 return res.data
             })
         },
         getCatalog: ({ commit }, params) => {
             return recipe.getTable(params).then(res => {
                 const dataSetter = 'set' + params.table.charAt(0).toUpperCase() + params.table.slice(1);
-                commit( dataSetter, res.data) 
+                commit( dataSetter, res.data)
                 return res.data
             })
         },
         getIngredient: ({ commit }, params) => {
             return recipe.getIngredient(params).then(res => {
-                commit('setIngredient', res.data)  
+                commit('setIngredient', res.data)
                 return res.data
             })
         },
         getFoodtype: ({ commit }) => {
             return recipe.getTable({table:"foodtype", keyword: "all"}).then(res => {
-                commit('setFoodtype', res.data)  
+                commit('setFoodtype', res.data)
                 return res.data
             })
         },
@@ -85,7 +85,8 @@ const Recipe = {
         getRecipeContent: (c, params) => {
             return Promise.all( [
                 recipe.getRecipeContent(params),
-                recipe.getRecipeIngredient(params)
+                recipe.getRecipeIngredient(params),
+                recipe.getRecipeInstru(params)
             ])
             .then( (ress) => {
                 ress = ress.map( ress => ress.data )
@@ -101,17 +102,17 @@ const Recipe = {
         // },
         // getRecipeIngredient: ({ commit }, params) => {
         //     return recipe.getRecipeIngredient(params).then( res => {
-        //         commit('setIngredient', res.data)  
+        //         commit('setIngredient', res.data)
         //         return res.data
         //     })
         // },
         getSearchKeyword: ({ commit }, data) => {
-            commit('setSearchKeyword', data)  
+            commit('setSearchKeyword', data)
         },
         getType: ({ commit }, data) => {
-            commit('setType', data)  
+            commit('setType', data)
         },
-        
+
     },
     getters: {
         recipesGetter: (state) => {

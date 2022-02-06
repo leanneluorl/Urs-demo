@@ -6,7 +6,7 @@
 				{{searchKeywordData}}
 			</p>
 		</div>
-		<RecipeList 
+		<RecipeList
 			:recipeList="recipes"
 			>
 			<!-- <h2 ref="resultTag"  class="section-title">Recipes Search Results:</h2> -->
@@ -36,17 +36,17 @@ export default {
 		}
 	},
 	created: function() {
-		console.log("this.cuisine",this.cuisine)    	
+		console.log("this.cuisine",this.cuisine)
 		console.log("this.diettype",this.diettype)
     },
 	updated: function(){
-		
+
 	},
 	methods: {
-		
+
 	},
 	watch: {
-		
+
 	}
 }
 </script>
@@ -58,7 +58,7 @@ export default {
 			height: 100px;
 			margin: 3vw auto;
 		}
-		
+
 		background-position: center;
 		background-size: cover;
 		border-radius: 1.5vw;
@@ -71,7 +71,7 @@ export default {
 			color: white;
 			font-weight: 900;
 			filter: drop-shadow(0 0 2px #000000);
-			font-size: 1.5rem;
+			font-size: 2rem;
 			line-height: 1.5rem;
 		}
 	}

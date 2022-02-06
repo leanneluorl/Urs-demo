@@ -22,7 +22,7 @@ export default {
             method: 'get'
         })
     },
-    
+
     getIngredient: (params) => {
         const table = params.table
         const keyword = params.keyword
@@ -51,6 +51,13 @@ export default {
         const recipeID = params.recipeID
         return axios({
             url: `${recipeApiURL}/${recipeID}/IGD`,
+            method: 'get'
+        })
+    },
+    getRecipeInstru: (params) => {
+        const recipeID = params.recipeID
+        return axios({
+            url: `${recipeApiURL}/${recipeID}/Instru`,
             method: 'get'
         })
     },
