@@ -4,8 +4,8 @@
     <p class="wordings">
     Drag and Drop the ingredien to selection box.
     <br />Search Recipes by Ingredients:
-    <span 
-        v-for="selection in selections" 
+    <span
+        v-for="selection in selections"
         class="selection_list"
         :key="selection">
         {{selection}}
@@ -31,15 +31,15 @@
 
     <div v-for="(foodtype, key) in formatIngredientData"
         :key="`foodtype-`+key"
-        class="drag-ingredient drag-ingredient-wrap" 
+        class="drag-ingredient drag-ingredient-wrap"
         >
         <div class="drag-ingredient-type">
             <h6 class="Head2-foodtype">{{ foodtypeName(key) }}</h6>
         </div>
         <div class="drag-ingredient-item" >
-            <div class="igd-dragbox" 
+            <div class="igd-dragbox"
                 v-for="ingredient in foodtype"
-                :key="`stock-ingredient-`+ingredient.SDID" 
+                :key="`stock-ingredient-`+ingredient.SDID"
                 >
                 <div
                     class="igd-icon"
@@ -75,7 +75,7 @@ export default {
     },
     computed: {
         formatIngredientData() {
-            return this.groupBy(this.ingredientData, "foodtypeID") //Database setting, "foodTypeID" case sensitive 
+            return this.groupBy(this.ingredientData, "foodtypeID") //Database setting, "foodTypeID" case sensitive
         }
     },
     methods: {
@@ -89,17 +89,17 @@ export default {
             ev.preventDefault();
         },
         dragStart(ev) {
-            console.log("ev.target.id",ev.target.id)
+            // console.log("ev.target.id",ev.target.id)
             ev.dataTransfer.setData("igdID", ev.target.id);
         },
         drop(ev) {
             ev.preventDefault();
             const igdID = ev.dataTransfer.getData("igdID")
-            console.log(igdID);
+            // console.log(igdID);
             const igd = document.getElementById(igdID)
             ev.target.appendChild(igd);
             this.selections.push(igd.getAttribute('item'))
-            console.log("this.selection",this.selections );
+            // console.log("this.selection",this.selections );
         },
         searchRecipe() {
             var jsonData = {}
@@ -112,34 +112,34 @@ export default {
                 var name = "selection"+x
                 jsonData[name] = (arrLength >= x) ?  this.selections[x-1] :  ""  ;
             }
-            console.log(jsonData)
+            // console.log(jsonData)
             this.searchRecipebyIGD(jsonData).then(res =>{
                     console.log("res",res)
                     this.$emit("searchResult",res)
 				}).catch(err => {
 					console.dir(err)
 				})
-            
+
         },
         ResetSearchResult() {
             // this.$router.go()
             this.$emit("resetDrag",'')
-            
+
         },
     },
     created: function() {
-        console.log("RM",this.ingredientData)
     },
 };
 </script>
 
 <style lang="scss" scoped>
-    
+
     .ingredient_search-box {
         padding: 2.5%;
         background-color: $primary-g;
         filter: brightness(0.95);
-        padding: 0 5vw;
+        padding: 0 5vw
+        ;
         @media only screen and (max-width: 600px) {
             margin: 0 0 0 110px;
             button {
@@ -151,7 +151,7 @@ export default {
             color: $primary-g-dark;
             filter: brightness(0.75);
         }
-        
+
 
         & > h3, & > p {
             padding: 20px 0 10px;
@@ -185,7 +185,7 @@ export default {
                 filter: brightness(0.9);
                 transform: scale(1.01);
             }
-        } 
+        }
         .igd-icon {
         width: 40px;
         height: 40px;

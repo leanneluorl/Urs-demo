@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import store from '../store'
+import cookie from 'vue-cookies'
 
 Vue.use(VueRouter)
 
@@ -37,21 +38,25 @@ export const routes = [
   {
     path: '/rummage',
     name: 'Rummage',
+    meta: { requiresAuth: true },
     component: () => import('../views/Rummage.vue')
   },
   {
     path: '/ur-stock',
     name: 'UrStock',
-    component: () => import('../views/News.vue')
+    meta: { requiresAuth: true },
+    component: () => import('../views/UrStock.vue')
   },
   {
     path: '/ur-table',
     name: 'UrTable',
+    meta: { requiresAuth: true },
     component: () => import('../views/Direction.vue')
   },
   {
     path: '/user',
     name: 'User',
+    meta: { requiresAuth: true },
     component: () => import('@/views/User.vue')
   },
 ]
@@ -59,6 +64,22 @@ export const routes = [
 const router = new VueRouter({
   mode: 'hash',
   routes
+})
+
+
+router.beforeEach( (to, from, next) => {
+  const userIsLogined = store.getters['User/userIsLogin'];
+  const requiresAuth = to.matched.some((route) => route.meta && route.meta.requiresAuth);
+
+  if (!userIsLogined && requiresAuth) {
+    store.dispatch('User/getLoginPOP', true, { root: true })
+    cookie.set('redirection', to.path)
+    next(false);
+    // this.redirectToLogin(to);
+  }else {
+    store.dispatch('User/getLoginPOP', false, { root: true })
+    next();
+  }
 })
 
 export default router

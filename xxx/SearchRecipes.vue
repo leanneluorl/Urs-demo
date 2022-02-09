@@ -7,7 +7,7 @@
 <script>
 import { mapActions, mapState} from 'vuex'
 
-export default {    
+export default {
     name: "Recipes",
     components: {},
     data: () => {
@@ -15,7 +15,7 @@ export default {
             rescipeLists: {},
         }
     },
-    mounted() {  
+    mounted() {
     },
     methods: {
         ...mapActions('Recipes', ['getRecipes']),
@@ -24,14 +24,13 @@ export default {
                 keyword: "Lasagna",
                 order: "viewtimes",
                 sort: "desc"
-            })  
-console.log("method",this.recipes)
+            })
         },
     },
     computed: {
         ...mapState('Recipes', ['recipes']),
     },
-    
+
 }
 </script>
 

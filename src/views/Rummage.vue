@@ -4,7 +4,7 @@
 		<section class="recipe-drag-wrap" ref="dragTag">
 			<drag @searchResult="passResult" @resetDrag="resetDrag" :ingredientData="userIngredientStockData" :key="dragKey" />
 		</section>
-		<RecipeList v-if="serchResultRecipes.length" 
+		<RecipeList v-if="serchResultRecipes.length"
 			:recipeList="serchResultRecipes"
 			>
 			<h2 ref="resultTag"  class="section-title">Recipes Search Results:</h2>
@@ -37,17 +37,15 @@ export default {
 
 		this.userIngredientStockData = await this.getUserStockIGD({
 												userID: this.userID })
-        console.log(this.userIngredientStockData)
     },
 	updated: function(){
 		if(this.serchResultRecipes.length){
 			this.scrollPageTo("resultTag")
 		}
-		
+
 	},
     methods: {
         passResult(res) {
-            console.log("result",res)
             if(res.status === "201"){
                 this.serchResultStatus = true
             }
@@ -61,11 +59,17 @@ export default {
 }
 </script>
 
-<style>
-.info{
-    background-color: aqua;
-    width: 100%;
-    height: 100%;
-}
+<style lang="scss">
+    .rummage-box {
+        @media only screen and (max-width: 600px) {
+			width: calc(100% - 100px);
+			margin-left: 100px;
+		}
+		border: 2px solid $primary-g;
+		border-radius: 3vw;
+		overflow: hidden;
+		width: calc(100% - 220px);
+        margin: 30px auto;
+    }
 
 </style>

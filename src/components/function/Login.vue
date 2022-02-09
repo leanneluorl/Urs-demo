@@ -43,18 +43,16 @@ export default {
 	},
     computed: {
         ...mapState('User', ['user']),
-        
+
     },
     methods: {
         ...mapActions('User', ['login']),
         Signin() {
-            console.log(this.uid)
             this.login({
                 userID: this.uid,
                 password:this.pwd,
             }).then( result => {
                 this.err = result
-                console.log(result)
             })
         }
     }
@@ -108,7 +106,7 @@ export default {
             margin-right: 16px;
         }
     }
-    
+
     /*Registration page*/
     #registration {
         width: 700px;

@@ -6,10 +6,10 @@ export const recipeMixin = {
     data:() =>{
         return {
             allAction: '',
-            
+
         }
     },
-    computed: { 
+    computed: {
         ...mapState('Recipe', ['recipes','catalog', 'searchKeyword', 'type']),
         ...mapGetters('Recipe', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter']),
         recipeActions(){
@@ -17,13 +17,12 @@ export const recipeMixin = {
             Reflect.ownKeys(this.$store._actions).filter( action => action.includes('Recipe/')
             )
             return actions.map( action => action.replace('Recipe/','')
-            )        
+            )
         },
         recipesData() {
             return this.recipesGetter
         },
         foodtype() {
-            console.log('foodtype')
             console.log(this.$store)
             console.log('Actions:', this.recipeActions)
             return this.foodtypeGetter
@@ -44,17 +43,14 @@ export const recipeMixin = {
             return this.type
         }
     },
-    methods: { 
+    methods: {
         ...mapActions('Recipe', ['getRecipes','getCatalog','getIngredient','getFoodtype','searchRecipebyIGD','getSearchKeyword','getType', 'getRecipeContent']),
         async searchRecipe(keyword, order, sort, jumpTo, type) {
-            console.log(keyword, order, sort)
-            
+
             if(jumpTo){
-                this.$router.push(jumpTo) 
-                this.getSearchKeyword(keyword)  
-                this.getType(type)  
-                console.log(this.cuisine)
-                console.log(this.diettype)
+                this.$router.push(jumpTo)
+                this.getSearchKeyword(keyword)
+                this.getType(type)
             }
 
             let recipesData = await this.getRecipes({
@@ -62,7 +58,6 @@ export const recipeMixin = {
                 order: order,
                 sort: sort
             })
-            console.log("recipesData",recipesData)
             return recipesData
         },
         checkImg(path) {
@@ -77,15 +72,13 @@ export const recipeMixin = {
             try{
                 return { "background-image": `url(${require(`@/img/recipe/${img}`)})`}
             }catch(e){
-                return { "background-image": `url(${require(`@/img/recipe/test.jpg`)})`}
+                // return { "background-image": `url(${require(`@/img/recipe/test.jpg`)})`}
             }
-            
+
         },
         scrollPageTo(refName) {
             var element = this.$refs[refName];
-            console.log("scrollTo()",element)
             var top = element.offsetTop;
-        console.log("scrollTo()")
             window.scrollTo(0, top);
         },
         groupBy(objectArray, property) {

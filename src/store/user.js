@@ -1,6 +1,6 @@
 import user from '../api/userA'
 import cookie from 'vue-cookies'
-// import router from '../router'
+import router from '../router'
 
 const User = {
     namespaced: true,
@@ -10,7 +10,7 @@ const User = {
         error: {},
         user: cookie.get('user-data') || '',
         loginPOP: false,
-        userIngredientStock: {},
+        userStockIGD: {},
         userEditorPOP: false
     }),
     mutations: {
@@ -26,47 +26,49 @@ const User = {
         setUserEditorPOP: (state, status) => {
             state.userEditorPOP = status;
         },
-        setUserIngredientStock: (state, userIngredientStock) => {
-            state.userIngredientStock = userIngredientStock;
+        setUserStockIGD: (state, userStockIGD) => {
+            state.userStockIGD = userStockIGD;
         }
     },
     actions: {
         login: ({ commit }, params) => {
-            return user.getRecipes(params).then(res => {
-                console.log("Login",res)
-                console.log("UserID",res.data.UserID)
+            return user.getUser(params).then(res => {
                 if(!res.data.UserID || params.password !== res.data.UserPWD){
                     console.log("ERROR")
                     return {
                         status: "failed",
                         msg: "Login Failed"
-                    }   
+                    }
                 }else if(params.password === res.data.UserPWD){
                     cookie.set('user-id', res.data.UserID)
                     cookie.set('user-data', res.data)
-                    commit('setUser', res.data)  
-                    commit('setUserID', res.data.UserID)  
-                    commit('setloginPOP', false)  
+                    user.getUserStockIGD(params).then(res => {
+                        commit('setUserStockIGD', res.data)
+                    })
+                    commit('setUser', res.data)
+                    commit('setUserID', res.data.UserID)
+                    commit('setloginPOP', false)
                     alert("Login success!")
+                    router.push(cookie.get('redirection'));
                 }
                 return res.data
             })
         },
         getLoginPOP: ({ commit }, status) => {
-            commit('setloginPOP', status)  
+            commit('setloginPOP', status)
         },
         getUserEditorPOP: ({ commit }, status) => {
-            commit('setUserEditorPOP', status)  
+            commit('setUserEditorPOP', status)
         },
         logout: ({ commit }) => {
             cookie.remove('user-data')
             cookie.remove('user-id')
-            commit('setUser', '')  
-            commit('setUserID', '')  
+            commit('setUser', '')
+            commit('setUserID', '')
         },
         getUserStockIGD: ({ commit }, params) => {
             return user.getUserStockIGD(params).then(res => {
-                commit('setUserIngredientStock', res.data)  
+                commit('setUserStockIGD', res.data)
                 return res.data
             })
         },
@@ -77,7 +79,7 @@ const User = {
                     cookie.remove('user-data')
                     cookie.set('user-data', res.data)
                     commit('setUser', res.data)
-                    commit('setUserEditorPOP', false)  
+                    commit('setUserEditorPOP', false)
                     alert("User Info Updated!")
                     return res.data
                 }).catch(err => {
@@ -90,9 +92,12 @@ const User = {
         },
     },
     getters: {
-        // recipesGetter: (state) => {
-        //     return state.recipes || {}
-        // },
+        userGetter: (state) => {
+            return state.userID || ''
+        },
+        userIsLogin: (state) => {
+            return state.userID.length
+        },
     }
 }
 

@@ -6,23 +6,15 @@ export const userMixin = {
         return {
         }
     },
-    computed: { 
-        ...mapState('User', ['user','loginPOP','userID','userEditorPOP']),
-        ...mapGetters('User', []),
+    computed: {
+        ...mapState('User', ['user','loginPOP','userID','userEditorPOP','userStockIGD']),
+        ...mapGetters('User', ['userGetter', 'userIsLogin']),
         userData() {
             return this.user
         },
     },
-    methods: { 
+    methods: {
         ...mapActions('User', ['getLoginPOP','logout','getUserStockIGD','updateUserInfo','getUserEditorPOP']),
-        clickLogin(page) {
-            console.log("click")
-            if(page !== "recipe"){
-                this.userID ? 
-                this.$router.push(page) 
-                : this.getLoginPOP(true)
-            }
-        },
         closeLogin() {
             this.getLoginPOP(false)
         },
@@ -30,14 +22,14 @@ export const userMixin = {
             console.log("Log out")
             this.logout();
             this.$router.push("/")
-        }
+        },
         // async searchRecipe(keyword, order, sort, jumpTo, type) {
         //     console.log(keyword, order, sort)
-            
+
         //     if(jumpTo){
-        //         this.$router.push(jumpTo) 
-        //         this.getSearchKeyword(keyword)  
-        //         this.getType(type)  
+        //         this.$router.push(jumpTo)
+        //         this.getSearchKeyword(keyword)
+        //         this.getType(type)
         //         console.log(this.cuisine)
         //         console.log(this.diettype)
         //     }

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import cookie from 'vue-cookies'
 
-const userApiURL = "http://localhost:8080/api/UrKitchen/user"
+const userApiURL = "http://localhost:4000/api/UrKitchen/user"
 
 export default {
-    getRecipes: (params) => {
+    getUser: (params) => {
         const userID = params.userID
         return axios({
             url: `${userApiURL}/${userID}`,

@@ -4,7 +4,7 @@
 		<section class="recipe-drag-wrap" ref="dragTag">
 			<drag @searchResult="passResult" @resetDrag="resetDrag" :ingredientData="ingredientData" :key="dragKey" />
 		</section>
-		<RecipeList v-if="serchResultRecipes.length" 
+		<RecipeList v-if="serchResultRecipes.length"
 			:recipeList="serchResultRecipes"
 			>
 			<h2 ref="resultTag"  class="section-title">Recipes Search Results:</h2>
@@ -14,13 +14,13 @@
 			</template>
 		</RecipeList>
 		<section class="recipe-catalog-wrap">
-			<div v-for="(catalog, key) in catalogs" :key="key" :class="key" 
+			<div v-for="(catalog, key) in catalogs" :key="key" :class="key"
 				class="recipe-catalog-group">
 				<div class="recipe-catalog-group-title-wrap"
 					:style="bgImg( key+`-title.jpg`)">
 					<h2 class="recipe-catalog-group-title" >{{ catalogs[key].title }}</h2>
 				</div>
-				<div v-for="(item, index) in catalogs[key].data" 
+				<div v-for="(item, index) in catalogs[key].data"
 					:key="item.Uniq_name"
 					:class="[cataStyle(index)]"
 					:style="bgImg( key+`-`+item.itemID+`.jpg`)"
@@ -69,7 +69,6 @@ export default {
 													table: key ,
 													keyword: "all"})
 		}
-		console.log(this.catalogs)
 		this.ingredientData = await this.getIngredient({
 												table: "Ingredient" ,
 												keyword: "all",
@@ -79,10 +78,10 @@ export default {
 		if(this.serchResultRecipes.length){
 			this.scrollPageTo("resultTag")
 		}
-		
+
 	},
 	methods: {
-		async searchCatalog(table) { 
+		async searchCatalog(table) {
 			return await this.getCatalog({
 			table: table,
 			keyword: "all"})
@@ -94,7 +93,6 @@ export default {
 				return "w-2x"
 		},
 		passResult(res) {
-			console.log("result",res)
 			if(res.status === "201"){
 				this.serchResultStatus = true
 			}
@@ -104,15 +102,9 @@ export default {
 			this.serchResultRecipes = result
 			this.dragKey += 1
 		},
-		searchRecipeData(key, itemID) {
-			console.log("key",key)
-			console.log("itemID",itemID)
-			//[catalogs[key]][catalogs[key].data.itemID].item, 'viewtimes', 'desc', 'recipe_catalog', [catalogs[key],(parseInt(catalogs[key].data.itemID)+1)]
-			return null
-		}
 	},
 	watch: {
-		
+
 	}
 }
 </script>

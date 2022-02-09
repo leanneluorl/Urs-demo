@@ -1,6 +1,6 @@
 <template>
     <div class="user_editor-box">
-        
+
         <h1>User Info Editor</h1>
         <div class="close" @click="clickCloseEdit()"></div>
         <div class="user-item">
@@ -37,11 +37,10 @@ export default {
         }
     },
     components: {
-       
+
     },
     methods: {
         editUser() {
-            console.log(this.fName,this.lName,this.mobile)
             this.updateUserInfo({
                 FirstName: this.fName,
                 LastName: this.lName,
@@ -93,7 +92,7 @@ export default {
                 &.line {
                     margin: 5px 0;
                 }
-                
+
                 float: left;
             }
             &-input {

@@ -29,14 +29,14 @@ export default {
         }
     },
     methods: {
-        
+
     },
     watch: {
         // recipes: {
         //     immediate: true,
         //     handler() {
         //         console.log("Header watch",this.recipes)
-                
+
         //     }
         // },
     }
@@ -58,7 +58,7 @@ export default {
         align-items: flex-end;
         .logo-image{
             width: 100%;
-            
+
             height: fit-content;
             flex: 0 1 auto;
             text-align: right;
@@ -74,10 +74,8 @@ export default {
             width: calc(85% - 100px);
             text-align: right;
             border-radius: 30px;
-            @extend .flex;
-            justify-content: center;
+            @extend .flex-align-center;
             align-content: center;
-            align-items: center;
             font-size: 16px;
             form {
                 width: 60%;

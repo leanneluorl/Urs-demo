@@ -38,7 +38,6 @@ const Recipe = {
             state.foodtype = foodtype;
         },
         setSearchKeyword: (state, searchKeyword) => {
-            console.log("setKeyword")
             state.searchKeyword = searchKeyword;
         },
         setType: (state, type) => {
@@ -90,22 +89,9 @@ const Recipe = {
             ])
             .then( (ress) => {
                 ress = ress.map( ress => ress.data )
-                console.log("RecipeContent",ress)
                 return ress
             })
         },
-        // getRecipeContent: (c, params) => {
-        //     return recipe.getRecipeContent(params).then(res => {
-        //         console.log("RecipeContent",res.data)
-        //         return res.data
-        //     })
-        // },
-        // getRecipeIngredient: ({ commit }, params) => {
-        //     return recipe.getRecipeIngredient(params).then( res => {
-        //         commit('setIngredient', res.data)
-        //         return res.data
-        //     })
-        // },
         getSearchKeyword: ({ commit }, data) => {
             commit('setSearchKeyword', data)
         },

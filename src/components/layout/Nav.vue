@@ -1,21 +1,21 @@
 <template>
     <div class="nav-box">
-        <a >
-            <div class="nav-item" @click="clickLogin('user')">
+        <router-link to="/user">
+            <div class="nav-item">
                 <img :src="require(`@/img/nav/login.png`)" alt="icon-login" class="nav-icon">
                 <p class="nav-link"> {{ userID ? userID : 'Login' }} </p>
             </div>
-        </a>
-        <router-link 
-        :class="{ 'nav-home': item.link === '' }" 
+        </router-link>
+        <router-link
+        :class="{ 'nav-home': item.link === '' }"
         v-for="item in navItems"
         :to="'/'+item.link" :key="item.key"
         >
-            <div class="nav-item" @click="clickLogin(item.link)">
+            <div class="nav-item">
                 <img :src="require(`@/img/nav/${item.link}.png`)" :alt="`icon-`+item.link" class="nav-icon">
                 <p class="nav-link"> {{ item.linkText }} </p>
             </div>
-        </router-link> 
+        </router-link>
     </div>
 </template>
 
@@ -37,7 +37,7 @@ export default {
                     link: "recipe",
                     linkText: "Recipe"
                 },
-                {   
+                {
                     link: "rummage",
                     linkText: "Rummage"
                 },
@@ -61,7 +61,7 @@ export default {
         // }
     },
     methods: {
-        
+
     }
 }
 </script>
@@ -85,11 +85,11 @@ export default {
         align-content: center;
         background-color: $primary-g-dark;
         filter: drop-shadow(0 0 2px #00000090);
-        a{  
+        a{
             text-decoration: inherit;
             display: block;
             width: 100%;
-            height: 100px;  
+            height: 100px;
             .nav-item{
                 height: 100%;
                 @extend .flex-nowrap;
@@ -99,15 +99,15 @@ export default {
                 align-content: center;
                 font-size: 18px;
             }
-            
+
             p{
                 color: $primary-g;
             }
             img{
                 filter: drop-shadow( 0 0 1px #00000010);
             }
-            
-            
+
+
             &.router-link-exact-active {
                 p{
                     color: $primary-g-dark;

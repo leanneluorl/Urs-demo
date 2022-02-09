@@ -36,8 +36,6 @@ export default {
 		}
 	},
 	created: function() {
-		console.log("this.cuisine",this.cuisine)
-		console.log("this.diettype",this.diettype)
     },
 	updated: function(){
 

@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import cookie from 'vue-cookies'
 import UserEditor from '@/components/user/UserEditor.vue';
 export default {
     name: 'User',
@@ -26,13 +25,10 @@ export default {
         UserEditor
     },
     created: () => {
-        // console.log('this.user',this.userData)
-        console.log("cookie.get('user-data')",cookie.get('user-data'))
     },
     methods: {
         clickEdit() {
             this.getUserEditorPOP(true)
-            console.log(this.userEditorPOP)
         }
     }
 }
@@ -54,7 +50,7 @@ export default {
         .user-data{
             text-align: left;
             margin: 1vw 0;
-            
+
             p {
                 height: 2rem;
                 padding: 0 25%;

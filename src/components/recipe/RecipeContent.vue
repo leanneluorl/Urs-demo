@@ -85,10 +85,6 @@ export default {
             this.recipeInstru = res[2]
             this.isFetch = true
         })
-        console.log("recipeID",this.$route.params.recipeID);
-        console.log("this.recipeInfo", this.recipeInfo);
-        console.log("this.recipeIGD", this.recipeIGD);
-        console.log("this.recipeInstru", this.recipeInstru);
     },
     computed: {
 

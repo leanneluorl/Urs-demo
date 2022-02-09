@@ -1,13 +1,13 @@
 <template>
-    <router-link class="recipe-link" 
+    <router-link class="recipe-link"
         :to="{ name: 'RecipeContent', params: { recipeID: recipe.RecipeID}}">
-        <h5 class="recepi-link-title">{{recipe.RecipeTitle}}</h5> 
-        <div class="recipe-link-main-image-wrap" 
+        <h5 class="recepi-link-title">{{recipe.RecipeTitle}}</h5>
+        <div class="recipe-link-main-image-wrap"
             :style="bgImg( `recipe-`+recipe.RecipeID+`-main.jpg`)">
-            <!-- <img 
+            <!-- <img
                 @error="setAltImg"
-                :src="getImgURL(recipe.RecipeID)" 
-                :alt="recipe.recipeTitle" 
+                :src="getImgURL(recipe.RecipeID)"
+                :alt="recipe.recipeTitle"
                 class="recipe-link-main-image"
                 > -->
         </div>
@@ -25,13 +25,12 @@ export default {
     methods: {
         getImgURL(RecipeID) {
             let path = `@/img/recipe/recipe-${RecipeID}-main.jpg`;
-            console.log(path, typeof(path))
             return path;//this.checkImg(path) ;
         },
-        setAltImg(e) { 
+        setAltImg(e) {
             console.log('Image failed to load');
             e.target.src = require("@/img/test.jpg")
-        } 
+        }
     }
 };
 </script>

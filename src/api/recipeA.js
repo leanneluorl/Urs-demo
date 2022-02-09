@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const recipeApiURL = "http://localhost:8080/api/UrKitchen/Recipe"
-const adminApiURL = "http://localhost:8080/api/UrKitchen/admin"
+const recipeApiURL = "http://localhost:4000/api/UrKitchen/Recipe"
+const adminApiURL = "http://localhost:4000/api/UrKitchen/admin"
 
 export default {
     getRecipes: (params) => {

@@ -19,7 +19,7 @@
 			</p>
 		</section>
 	</div>
-	
+
 </template>
 
 <script>
@@ -41,26 +41,12 @@ export default {
 										order: "viewtimes",
 										sort: "desc"})
 		this.homeRecipes = this.homeRecipes.slice(0,8)
-		console.log("home", this.homeRecipes);
-		// console.log("homeRecipes", this.homeRecipes)	
-		
-		// async function search() {
-		// 	await this.searchRecipe("all","viewtimes","desc")
-		// 	this.homeRecipes = this.recipes
-		// 	console.log("homeRecipes", this.homeRecipes)	
-		// }
-		// search();
     },
 	computed: {
-	
+
 	},
 	methods: {
-		// async homeRecipes() {
-		// 	console.log("this", await this.searchRecipe("all","viewtimes","desc"))
-		// 	let recipeData = await this.searchRecipe("all","viewtimes","desc")
-		// 	console.log("this", recipeData)
-		// 	return this.recipes
-		// }
+
 	},
 	watch: {
     }
@@ -69,7 +55,7 @@ export default {
 
 <style lang="scss">
 	.home-box {
-		
+
 		@media only screen and (max-width: 600px) {
 			.catalog {
 				&-left, &-right {
@@ -78,12 +64,12 @@ export default {
 			}
 		}
 		.catalog {
-			
+
 			div{
 				border-radius: 5vw;
 				float: left;
 				&:after {content: "";   display: block;   padding-bottom: 100%; }
-				
+
 			}
 			width: calc( 100% - 200px );
 			&-left, &-right {
@@ -112,7 +98,7 @@ export default {
 				}
 			}
 		}
-	
+
 		.about-wrap {
 			min-height: 300px;
 			background-color: $primary-y;
@@ -123,5 +109,5 @@ export default {
 				filter: brightness(0.7);
 			}
 		}
-	}	
+	}
 </style>
