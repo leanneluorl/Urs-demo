@@ -25,7 +25,7 @@ export default {
 	},
 	data:() =>{
         return {
-			defaultData: ['cuisine','diettype', 'foodtype']
+			defaultData: ['cuisine','diettype', 'foodtype', 'location']
         }
     },
 	created: async function() {
@@ -33,7 +33,7 @@ export default {
 			this.defaultData[i] = await this.getCatalog({
 													table: this.defaultData[i],
 													keyword: "all"})
-		}	
+		}
 	}
 }
 </script>
@@ -44,7 +44,7 @@ export default {
 	font-family: Lucida Sans Unicode;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-align: center;	
+	text-align: center;
 }
 
 

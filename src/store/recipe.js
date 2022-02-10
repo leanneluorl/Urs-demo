@@ -12,6 +12,7 @@ const Recipe = {
         cuisine: {},
         diettype: {},
         foodtype: {},
+        location: {},
         ingredient: {},
         instruction: {},
         recipeIngredient: {},
@@ -31,11 +32,14 @@ const Recipe = {
         setDiettype: (state, diettype) => {
             state.diettype = diettype;
         },
-        setIngredient: (state, ingredient) => {
-            state.ingredient = ingredient;
-        },
         setFoodtype: (state, foodtype) => {
             state.foodtype = foodtype;
+        },
+        setLocation: (state, location) => {
+            state.location = location;
+        },
+        setIngredient: (state, ingredient) => {
+            state.ingredient = ingredient;
         },
         setSearchKeyword: (state, searchKeyword) => {
             state.searchKeyword = searchKeyword;
@@ -115,6 +119,9 @@ const Recipe = {
         },
         diettypeGetter: (state) => {
             return state.diettype || {}
+        },
+        locationGetter: (state) => {
+            return state.location || {}
         },
     }
 }

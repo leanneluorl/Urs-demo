@@ -11,7 +11,7 @@ export const recipeMixin = {
     },
     computed: {
         ...mapState('Recipe', ['recipes','catalog', 'searchKeyword', 'type']),
-        ...mapGetters('Recipe', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter']),
+        ...mapGetters('Recipe', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter', 'locationGetter']),
         recipeActions(){
             var actions =
             Reflect.ownKeys(this.$store._actions).filter( action => action.includes('Recipe/')
@@ -72,7 +72,7 @@ export const recipeMixin = {
             try{
                 return { "background-image": `url(${require(`@/img/recipe/${img}`)})`}
             }catch(e){
-                // return { "background-image": `url(${require(`@/img/recipe/test.jpg`)})`}
+                return { "background-image": `url(${require(`@/img/recipe/test.jpg`)})`}
             }
 
         },
@@ -82,16 +82,26 @@ export const recipeMixin = {
             window.scrollTo(0, top);
         },
         groupBy(objectArray, property) {
-			return objectArray.reduce((acc, obj) => {
+			return this.sortKeys(objectArray.reduce((acc, obj) => {
 				const key = obj[property];
 				if (!acc[key]) {
 					acc[key] = [];
 				}
 				// Add object to list for given key's value
 				acc[key].push(obj);
-				return acc;
-			}, {});
-		}
+
+				return acc
+			}, {}));
+		},
+        sortKeys(data) {
+            var sortedData = Object.keys(data)
+                .sort()
+                .reduce(function (acc, key) {
+                    acc[key] = data[key];
+                    return acc;
+                }, {});
+            return sortedData
+        }
     }
 };
 

@@ -10,7 +10,7 @@ const User = {
         error: {},
         user: cookie.get('user-data') || '',
         loginPOP: false,
-        userStockIGD: {},
+        userStockIGD: [],
         userEditorPOP: false
     }),
     mutations: {
@@ -88,7 +88,28 @@ const User = {
                     }
                 })
             });
-
+        },
+        updateUserStockIGD({dispatch, state}, {SDID, data}) {
+            console.log(" {SDID, data}",SDID)
+            console.log(" {SDID, data}", data)
+            return new Promise((resolve, reject) => {
+                user.updateUserStockIGD(SDID, data).then(res => {
+                    resolve(res);
+                    dispatch('getUserStockIGD', {userID: state.userID})
+                    alert("User Stock Updated!")
+                    return res.data
+                }).catch(err => {
+                    if (err.response.status == 400) {
+                        reject(err);
+                    }
+                })
+            });
+        },
+        deleteUserStockIGD: ({ dispatch, state }, params) => {
+            return user.deleteUserStockIGD(params).then(res => {
+                dispatch('getUserStockIGD', {userID: state.userID})
+                return res.data
+            })
         },
     },
     getters: {

@@ -66,7 +66,7 @@ export default {
 		.catalog {
 
 			div{
-				border-radius: 5vw;
+				border-radius: 3vw;
 				float: left;
 				&:after {content: "";   display: block;   padding-bottom: 100%; }
 
@@ -94,7 +94,7 @@ export default {
 					width: 100%;
 					height: 100%;
 					&:after { padding-bottom: 50% !important; }
-					background: url(./../img/home/japanese.jpg) no-repeat center center/auto 100% ;
+					background: url(./../img/home/italian.jpg) no-repeat center center/100% auto;
 				}
 			}
 		}

@@ -26,4 +26,18 @@ export default {
             data
         })
     },
+    updateUserStockIGD: (SDID, data) => {
+        console.log("data", data)
+        return axios({
+            url: `${userApiURL}/SDID/${SDID}`,
+            method: 'put',
+            data
+        })
+    },
+    deleteUserStockIGD: (SDID) => {
+        return axios({
+            url: `${userApiURL}/stockIGD/${SDID}`,
+            method: 'delete'
+        })
+    },
 }

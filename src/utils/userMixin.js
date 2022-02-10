@@ -14,7 +14,7 @@ export const userMixin = {
         },
     },
     methods: {
-        ...mapActions('User', ['getLoginPOP','logout','getUserStockIGD','updateUserInfo','getUserEditorPOP']),
+        ...mapActions('User', ['getLoginPOP','logout','getUserStockIGD','updateUserInfo','getUserEditorPOP', 'updateUserStockIGD','deleteUserStockIGD']),
         closeLogin() {
             this.getLoginPOP(false)
         },
