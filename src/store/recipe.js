@@ -7,15 +7,15 @@ const Recipe = {
     state: () => ({
         response: {},
         error: {},
-        recipes: {},
-        catalog: {},
-        cuisine: {},
-        diettype: {},
-        foodtype: {},
-        location: {},
-        ingredient: {},
-        instruction: {},
-        recipeIngredient: {},
+        recipes: [],
+        catalog: [],
+        cuisine: [],
+        diettype: [],
+        foodtype: [],
+        location: [],
+        ingredient: [],
+        instruction: [],
+        recipeIngredient: [],
         searchKeyword: 'test',
         type: [],
     }),
@@ -106,22 +106,22 @@ const Recipe = {
     },
     getters: {
         recipesGetter: (state) => {
-            return state.recipes || {}
+            return state.recipes || []
         },
         foodtypeGetter: (state) => {
-            return state.foodtype || {}
+            return state.foodtype || []
         },
         ingredientGetter: (state) => {
-            return state.ingredient || {}
+            return state.ingredient || []
         },
         cuisineGetter: (state) => {
-            return state.cuisine|| {}
+            return state.cuisine|| []
         },
         diettypeGetter: (state) => {
-            return state.diettype || {}
+            return state.diettype || []
         },
         locationGetter: (state) => {
-            return state.location || {}
+            return state.location || []
         },
     }
 }

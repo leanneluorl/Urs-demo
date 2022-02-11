@@ -34,6 +34,10 @@ export default {
 													table: this.defaultData[i],
 													keyword: "all"})
 		}
+		await this.getIngredient({
+					table: "Ingredient",
+					keyword: "all",
+					order: "Unique_Name"})
 	}
 }
 </script>

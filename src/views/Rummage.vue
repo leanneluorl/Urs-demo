@@ -2,7 +2,7 @@
     <div class="rummage-box">
         <h1 class="section-title main">Rummage</h1>
 		<section class="recipe-drag-wrap" ref="dragTag">
-			<drag @searchResult="passResult" @resetDrag="resetDrag" :ingredientData="userIngredientStockData" :key="dragKey" />
+			<DragRM @searchResult="passResult" @resetDrag="resetDrag" :ingredientData="userIngredientStockData" :key="dragKey" />
 		</section>
 		<RecipeList v-if="serchResultRecipes.length"
 			:recipeList="serchResultRecipes"
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import Drag from '@/components/function/DragRM.vue';
+import DragRM from '@/components/function/DragRM.vue';
 import RecipeList from '@/components/recipe/RecipeList.vue';
 export default {
     name: 'Recipe',
 	components: {
-		Drag,
+		DragRM,
 		RecipeList,
 	},
 	data:() => {

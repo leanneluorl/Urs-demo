@@ -11,7 +11,7 @@ export const recipeMixin = {
     },
     computed: {
         ...mapState('Recipe', ['recipes','catalog', 'searchKeyword', 'type']),
-        ...mapGetters('Recipe', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'diettypeGetter', 'locationGetter']),
+        ...mapGetters('Recipe', ['recipesGetter','foodtypeGetter', 'cuisineGetter', 'ingredientGetter', 'diettypeGetter', 'locationGetter']),
         recipeActions(){
             var actions =
             Reflect.ownKeys(this.$store._actions).filter( action => action.includes('Recipe/')

@@ -26,13 +26,14 @@
             <tab title="Manager Ur Stock">
                 <tab-wrap class="user-stock_editor">
                     <tab title="Edit UrStock Ingredient" class="user-stock_editor__tab-content">
+                        <h4 class="igd editor__head-button">Edit existing Ingredient</h4>
                         <div
-                            class="igd editor"
+                            class="igd editor updator"
                             v-for="(location, key) in groupBy(userStockIGD, 'foodtype')"
                             :key="key"
                         >
                             <h5 class="igd editor__head">{{key}}</h5>
-                            <form
+                            <form @submit.prevent
                                 class="igd editor__item"
                                 v-for="igd in location"
                                 :key="'SDID-'+igd.SDID"
@@ -41,9 +42,9 @@
                                 <div>
                                     <input type="number" :value="igd.Amount" :id="'Amount'+igd.SDID"
                                             :name="'Amount'+igd.SDID"
-                                            min="0" max="9999999"
+                                            min="0" max="99999"
                                             /><span class="unit"></span>
-                                    <span v-if="errors.length"> {{errors}} </span>
+                                    <span v-if="error.id === igd.SDID"> {{error.msg}} </span>
                                 </div>
                                 <!-- LocationSelection['Location'+igd.SDID] -->
                                 <div class="custom-select">
@@ -55,9 +56,48 @@
                                             :selected="igd.LocationID === item.Uniq_name"
                                         > {{ item.Uniq_name }} </option>
                                     </select>
+                                    <SelectBox v-if="locationGetter.length"
+                                        :data-list="locationGetter"
+                                        :list-key="'item'"
+                                        :selected="true"
+                                        :opt-group="{status: true}" />
                                 </div>
 								<input type="submit" value="Edit" class="edit" @click="editStockIGD(igd.SDID)">
 								<input type="submit" value="Delete" class="delete" @click="deleteUserStockIGD(igd.SDID)">
+                            </form>
+                        </div>
+                        <h4 class="igd editor__head-button">Add new Ingredient</h4>
+                        <div class="igd editor creator">
+                            <form @submit.prevent
+                                class="igd editor__item"
+                            >
+                                <div class="custom-select">
+                                    <select v-model="creator.IngredientID" >
+                                        <optgroup v-for="(item, key) in groupBy(ingredient, 'Information')"
+                                                :key="key"
+                                                :label="key">
+                                            <option v-for="igd in item"
+                                                :value="igd.item"
+                                                :key="'IGD'+igd.itemID"
+                                            > {{ item.Uniq_name }}</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                                <div>
+                                    <input type="number" v-model="creator.Amount"
+                                            min="0" max="99999"
+                                            /><span class="unit"></span>
+                                </div>
+                                <div class="custom-select">
+                                    <select v-model="creator.LocationID" >
+                                        <option
+                                            v-for="item in locationGetter"
+                                            :value="item.Uniq_name"
+                                            :key = item.Uniq_name
+                                        > {{ item.Uniq_name }} </option>
+                                    </select>
+                                </div>
+								<input type="submit" value="Create" class="create" @click="creatStockIGD()">
                             </form>
                         </div>
                     </tab>
@@ -73,19 +113,26 @@
 <script>
 import tabWrap from "@/components/ui/TabWrap.vue";
 import tab from "@/components/ui/Tab.vue";
+import SelectBox from "@/components/ui/SelectBox.vue";
 
 export default {
     name: "UrStock",
     components: {
         tabWrap,
-        tab
+        tab,
+        SelectBox
     },
     data: () => {
         return {
             isFetch: false,
 			LocationSelection: {},
             selected: '',
-            errors: [],
+            error: {},
+            creator: {
+                IngredientID: '',
+                Amount: '',
+                LocationID: ''
+            }
             // isLogin: this.userID !== undefined ? true : false,
         };
     },
@@ -97,6 +144,11 @@ export default {
                 this.isFetch = true;
             }
         });
+        console.log('IGD',this.ingredient)
+        console.log('IGD',this.groupBy(this.ingredient, 'Information'))
+		console.log('IGD',Object.keys(this.groupBy(this.ingredient, 'Information')))
+		console.log('IGD',Object.keys(this.ingredient, 'Information'))
+        console.log('location',this.locationGetter)
     },
     computed: {
     },
@@ -109,16 +161,21 @@ export default {
             // e.preventDefault();
             var Amount = document.getElementById('Amount'+SDID).value,
                 LocationID = document.getElementById('Location'+SDID).value
-            if(Amount>999999 || Amount<0){
-                this.errors.push('Name required.');
-            }
-
-            this.updateUserStockIGD({
+            if( Amount>0 && Amount<999999) {
+                this.updateUserStockIGD({
                         SDID: SDID,
                         data: {
                             Amount: Amount,
                             LocationID: LocationID
                         }})
+
+            }else {
+                this.error.id = SDID
+                this.error.msg = "Number Should be....";
+                console.log(this.error)
+            }
+
+
 		},
         userStockIGDdata(groupByItem) {
             var data = this.groupBy(this.userStockIGD, groupByItem)
@@ -205,6 +262,7 @@ export default {
             @extend .flex-align-center;
             p {
                 color: white;
+                font-weight: 900;
                 text-shadow: 1px 2px 0 $primary-g-extra-dark,
                     -1px -1px 0 $primary-g-extra-dark,
                     1px -1px 0 $primary-g-extra-dark,
@@ -239,8 +297,11 @@ export default {
         &__tab-content {
             width: 85%;
             background-color: $primary-y-light;
+            h4 {
+                margin: 2% 0;
+            }
             .editor {
-                padding: 5% 5% 1% 5%;
+                padding: 1% 5% 5% 5%;
                 &__head {
                     width: 100%;
                     background-color: $primary-g-extra;
@@ -252,11 +313,11 @@ export default {
                     p {
                         text-align: left;
                         font-weight: 700;
-                        width: 30%;
+                        width: 25%;
                     }
                     & > div {
                         position: relative;
-                        min-width: 20%;
+                        min-width: 30%;
                         input{
                             width: 100%;
                             line-height: 2.35rem;
@@ -283,7 +344,16 @@ export default {
                         }
                     }
                     select {
-                        // A reset of styles, including removing the default dropdown arrow
+                        width: 100%;
+                        line-height: 2.35rem;
+                        optgroup{
+                            background:#000;
+                            color:#fff;
+                        }
+                        option{
+                            color: $primary-g;
+                        }
+                        /* // A reset of styles, including removing the default dropdown arrow
                         appearance: none;
                         // Additional resets for further consistency
                         background-color: transparent;
@@ -291,13 +361,18 @@ export default {
                         font-family: inherit;
                         font-size: inherit;
                         cursor: inherit;
-                        line-height: inherit;
+                        line-height: inherit; */
                     }
                     .custom-select {
                         width: 20%;
                         line-height: 2.35rem;
                         @extend .select-css;
                     }
+                }
+            }
+            .creator {
+                select {
+                    style: none;
                 }
             }
         }

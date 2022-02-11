@@ -89,6 +89,22 @@ const User = {
                 })
             });
         },
+        createUserStockIGD({dispatch, state}, data) {
+            console.log(" {SDID, data}", data)
+            return new Promise((resolve, reject) => {
+                user.updateUserStockIGD(data).then(res => {
+                    resolve(res);
+                    dispatch('getUserStockIGD', {userID: state.userID})
+                    alert("User Stock Created!")
+                    return res.data
+                }).catch(err => {
+                    console.log(err)
+                    if (err.response.status == 400) {
+                        reject(err);
+                    }
+                })
+            });
+        },
         updateUserStockIGD({dispatch, state}, {SDID, data}) {
             console.log(" {SDID, data}",SDID)
             console.log(" {SDID, data}", data)

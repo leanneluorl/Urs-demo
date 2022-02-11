@@ -26,6 +26,14 @@ export default {
             data
         })
     },
+    createUserStockIGD: (data) => {
+        const userID = cookie.get('user-id')
+        return axios({
+            url: `${userApiURL}/StockIGD/Create/${userID}`,
+            method: 'post',
+            data
+        })
+    },
     updateUserStockIGD: (SDID, data) => {
         console.log("data", data)
         return axios({

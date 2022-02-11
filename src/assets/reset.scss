@@ -65,10 +65,6 @@ select {
 	color: inherit;
 	outline: none;
 	border: none;
-	&::-webkit-input-placeholder {text-indent:10px!important;}
-	&:-moz-placeholder { text-indent:10px!important;}
-	&::-moz-placeholder {text-indent:10px!important;}
-	&:-ms-input-placeholder {text-indent:10px!important;}
 }
 
 
