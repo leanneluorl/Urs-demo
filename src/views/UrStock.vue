@@ -46,21 +46,23 @@
                                             /><span class="unit"></span>
                                     <span v-if="error.id === igd.SDID"> {{error.msg}} </span>
                                 </div>
-                                <!-- LocationSelection['Location'+igd.SDID] -->
                                 <div class="custom-select">
-                                    <select :id="'Location'+igd.SDID" >
+                                    <!-- <select :id="'Location'+igd.SDID" >
                                         <option
                                             v-for="item in locationGetter"
                                             :value="item.Uniq_name"
                                             :key = item.Uniq_name
                                             :selected="igd.LocationID === item.Uniq_name"
                                         > {{ item.Uniq_name }} </option>
-                                    </select>
+                                    </select> -->
                                     <SelectBox v-if="locationGetter.length"
                                         :data-list="locationGetter"
                                         :list-key="'item'"
-                                        :selected="true"
-                                        :opt-group="{status: true}" />
+                                        :selected="{status: true, value: igd.LocationID}"
+                                        :opt-group="{status: false}"
+                                        :current="igd.LocationID"
+                                        v-bind="editLocation(igd.SDID, igd.LocationID)"
+                                        @custom-select="selectLocation"/>
                                 </div>
 								<input type="submit" value="Edit" class="edit" @click="editStockIGD(igd.SDID)">
 								<input type="submit" value="Delete" class="delete" @click="deleteUserStockIGD(igd.SDID)">
@@ -96,6 +98,12 @@
                                             :key = item.Uniq_name
                                         > {{ item.Uniq_name }} </option>
                                     </select>
+                                    <!-- <SelectBox v-if="locationGetter.length"
+                                        :data-list="locationGetter"
+                                        :list-key="'item'"
+                                        :selected="{status: true, value: igd.LocationID}"
+                                        :opt-group="{status: false}"
+                                        @custom-select="selectLocation"/> -->
                                 </div>
 								<input type="submit" value="Create" class="create" @click="creatStockIGD()">
                             </form>
@@ -126,14 +134,13 @@ export default {
         return {
             isFetch: false,
 			LocationSelection: {},
-            selected: '',
             error: {},
+            // selected: {status: true, value: ''},
             creator: {
                 IngredientID: '',
                 Amount: '',
                 LocationID: ''
-            }
-            // isLogin: this.userID !== undefined ? true : false,
+            },
         };
     },
     created: async function() {
@@ -148,19 +155,25 @@ export default {
         console.log('IGD',this.groupBy(this.ingredient, 'Information'))
 		console.log('IGD',Object.keys(this.groupBy(this.ingredient, 'Information')))
 		console.log('IGD',Object.keys(this.ingredient, 'Information'))
-        console.log('location',this.locationGetter)
+
     },
     computed: {
     },
     methods: {
+        editLocation(SDID, location) {
+            return {
+                [`editLocation-${SDID}`]: location
+            }
+        },
         imgName(img) {
             return img.replace(/image\/|'/g, "");
         },
 		editStockIGD(SDID, e) {
-            console.log("e",e)
             // e.preventDefault();
             var Amount = document.getElementById('Amount'+SDID).value,
-                LocationID = document.getElementById('Location'+SDID).value
+                LocationID = document.querySelector('#Location'+SDID > 'ul' ); //document.getElementById('Location'+SDID)
+    console.log("LocationID", this.editLocation[SDID] )
+    console.log("target ID", e)
             if( Amount>0 && Amount<999999) {
                 this.updateUserStockIGD({
                         SDID: SDID,
@@ -202,6 +215,12 @@ export default {
             // }
 
             e.preventDefault();
+        },
+        selectLocation(option, e) {
+            this.LocationSelection = option
+            // e.current = option
+            console.log("this.$attrs",this)
+            console.log("this.selected",e)
         }
     },
     watch: {
@@ -273,7 +292,7 @@ export default {
     }
     &_editor {
         @extend .flex;
-        ul {
+        & > ul {
             @extend .flex;
             justify-content: flex-start;
             flex-direction: column;
@@ -319,13 +338,15 @@ export default {
                         position: relative;
                         min-width: 30%;
                         input{
+                            box-sizing: content-box;
                             width: 100%;
-                            line-height: 2.35rem;
+                            line-height: 2.4rem;
                             border: 1px solid $select-border;
-                            padding-left: 15px;
+                            padding: 0 0 0 15px;
                             &.unit::before {
                                 content:"gram";
                                 position: absolute;
+                                width: 50px;
                                 right: 5%;
                                 top: 50%;
                                 transform: translate(-50%, -50%);
@@ -338,7 +359,7 @@ export default {
                     input:not([type="number"]) {
                         width: 15%;
                         max-width: 15%;
-                        height: 2.4rem;
+                        height: calc( 2px + 2.4rem);
                         &.edit {
                             background-color: $primary-g;
                         }
@@ -365,15 +386,13 @@ export default {
                     }
                     .custom-select {
                         width: 20%;
-                        line-height: 2.35rem;
+                        line-height: 2.4rem;
                         @extend .select-css;
                     }
                 }
             }
             .creator {
-                select {
-                    style: none;
-                }
+
             }
         }
     }
