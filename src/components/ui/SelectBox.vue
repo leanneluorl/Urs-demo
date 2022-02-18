@@ -7,13 +7,13 @@
             <div class="arrow" :class="{ expanded : visible }"></div>
             <div :class="{ hide : !visible, visible}" class="option-wrap">
                 <div class="option-group"
-                    v-for="(optGroup, key, idx) in List"
+                    v-for="(itemGroup, key, idx) in List"
                     :key="key">
-                    <p :class="{'hide': key === 'noGroup'}">{{key}}</p>
+                    <p :class="{'hide': key === 'noGroup'}">{{itemGroup[0][optGroup.by]}}</p>
                     <ul>
-                        <li v-for="(opt, index) in optGroup"
+                        <li v-for="(opt, index) in itemGroup"
                             :key="idx+'-'+index"
-                            :class="{ current : opt[listKey] === value || opt[listKey] === label }"
+                            :class="{ current : opt[listKey] === value }"
                             @click="select(opt[listKey])">
                         {{ opt[listKey] }}
                         </li>
@@ -52,12 +52,16 @@ export default {
         }
     },
     created(){
-
+        if(this.selected.status){
+            this.value = this.selected.value
+        }
     },
     computed:{
         List() {
             if(this.optGroup.status){
-                // console.log('List',this.groupBy(this.dataList, this.optGroup.by))
+                console.log('List', this.dataList)
+                console.log('List', this.optGroup.by)
+                console.log('List',this.groupBy(this.dataList, this.optGroup.by))
                 return this.groupBy(this.dataList, this.optGroup.by)
             }else{
                 let ListObj = {
@@ -69,23 +73,20 @@ export default {
         label() {
             if(this.selected.status){
                 return this.selected.value
-            }else if(!this.selected.status && this.dataLabel){
-                return this.dataLabel
+            }else if(!this.selected.status && this.selected.value){
+                return this.selected.value
             }else{
                 return "Please select..."
             }
-        }
+        },
     },
     methods: {
         toggle() {
             this.visible = !this.visible;
         },
-        select( option ) {
-            console.log("child-e", this.$attrs)
-            this.$attrs[`editLocation-25`] = option
-            console.log("child-e", this.$attrs)
+        select(option) {
+            this.$el.setAttribute("current", option);
             this.value = option;
-            this.$emit('custom-select', option)
         },
         blur() {
             this.visible = !this.visible;

@@ -1,13 +1,13 @@
 <template>
-	<div class="recipe-catalog-box">
-		<div :style="bgImg( typeData[0]+`-`+typeData[1]+`.jpg`)"
+	<div class="recipe-catalog-box" >
+		<div :style="bgImg( this.category+`-`+this.itemID+`.jpg` )"
 			class="recipe-catalog page">
 			<p class="recipe-catalog-title">
 				{{searchKeywordData}}
 			</p>
 		</div>
 		<RecipeList
-			:recipeList="recipes"
+			:recipeList="recipesGetter"
 			>
 			<!-- <h2 ref="resultTag"  class="section-title">Recipes Search Results:</h2> -->
 			<h4>You got <span>{{recipes.length}}</span> Recipes</h4>
@@ -26,26 +26,46 @@ export default {
 	components: {
 		RecipeList,
 	},
-	props: {
-
-	},
-	data:() => {
+	data() {
 		return {
-			serchResultStatus: false,
-			dragKey: 0
+			getSearchResult: false,
+			dragKey: 0,
+			category: this.$route.params.category,
+			itemID:  this.$route.params.itemID,
+			item: this.$route.params.item
+			//type: this.$route.params,
 		}
 	},
-	created: function() {
+	created: async function() {
+		// this.category = await this.$route.params.category;
+		// this.itemID = await this.$route.params.itemID;
+		// this.item = await this.$route.params.item;
+
+		await this.getRecipes({
+                keyword: this.$route.params.item,
+                order: "viewtimes",
+				sort: "desc"
+            }).then(() => {
+				this.getGerchResult = true
+			})
     },
 	updated: function(){
 
 	},
+	computed: {
+		bgName() {
+			return this.category+`-`+this.itemID+`.jpg`
+		},
+		recipeKeyword() {
+			console.log("this.$route.params",this.$route.params.catagory)
+			console.log("this.$route.params",this.$route.params.itemID)
+			console.log("this.$route.params",this[`${this.$route.params.catagory}`][`${this.$route.params.itemID}`])
+			return this[`${this.$route.params.catagory}`][`${this.$route.params.itemID}`]
+		}
+	},
 	methods: {
 
 	},
-	watch: {
-
-	}
 }
 </script>
 

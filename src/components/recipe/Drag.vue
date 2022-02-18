@@ -24,7 +24,7 @@
             class="igd-dropbox"
         />
         <div class="igd-drop-button-box" ondrop="drop(event)" >
-            <button class="igd-drop-button search" type="button" @click="searchRecipe">Find!</button>
+            <button class="igd-drop-button search" type="button" @click="drag_searchRecipe">Find!</button>
             <button class="igd-drop-button reset" type="button" @click="ResetSearchResult">Reset</button>
         </div>
     </div>
@@ -98,7 +98,7 @@ export default {
             ev.target.appendChild(igd);
             this.selections.push(igd.getAttribute('item'))
         },
-        searchRecipe() {
+        drag_searchRecipe() {
             var jsonData = {}
             var arrLength = this.selections.length
             if( arrLength === 0 ){
@@ -192,7 +192,12 @@ export default {
             color: white;
             font-size: 0.75rem;
             line-height: 0.8rem;
-            word-break: break-all;
+            font-weight: 900;
+            text-shadow: 1px 2px 0 $primary-g-extra-dark,
+                        -1px -1px 0 $primary-g-extra-dark,
+                        1px -1px 0 $primary-g-extra-dark,
+                        -1px 1px 0 $primary-g-extra-dark,
+                        1px 1px 0 $primary-g-extra-dark;
         }
     }
     }

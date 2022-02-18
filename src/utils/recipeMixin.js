@@ -47,17 +47,19 @@ export const recipeMixin = {
         ...mapActions('Recipe', ['getRecipes','getCatalog','getIngredient','getFoodtype','searchRecipebyIGD','getSearchKeyword','getType', 'getRecipeContent']),
         async searchRecipe(keyword, order, sort, jumpTo, type) {
 
-            if(jumpTo){
-                this.$router.push(jumpTo)
-                this.getSearchKeyword(keyword)
-                this.getType(type)
-            }
-
             let recipesData = await this.getRecipes({
                 keyword: keyword,
                 order: order,
                 sort: sort
             })
+            if(jumpTo){
+                //console.log("$router",this.$route)
+                //this.$router.push(jumpTo)
+                this.getSearchKeyword(keyword)
+                this.getType(type)
+            }
+
+
             return recipesData
         },
         checkImg(path) {

@@ -92,7 +92,7 @@ const User = {
         createUserStockIGD({dispatch, state}, data) {
             console.log(" {SDID, data}", data)
             return new Promise((resolve, reject) => {
-                user.updateUserStockIGD(data).then(res => {
+                user.createUserStockIGD(data).then(res => {
                     resolve(res);
                     dispatch('getUserStockIGD', {userID: state.userID})
                     alert("User Stock Created!")

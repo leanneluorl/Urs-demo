@@ -9,7 +9,7 @@
         <div class="serach-box yellow">
             <form>
                 <input type="text" v-model="keywordText" placeholder="Search Recipe..." id="searchRecipe">
-                <input type="button" @click="searchRecipe(keywordText, 'viewtimes', 'desc')" />
+                <input type="button" @click="searchRecipe(keywordText, 'viewtimes', 'desc', 'recipeSearch')" />
             </form>
         </div>
         <Navbar />

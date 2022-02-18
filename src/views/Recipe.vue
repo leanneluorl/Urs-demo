@@ -1,16 +1,16 @@
 <template>
 	<div class="recipe-box">
 		<h1 class="section-title main">Recipe</h1>
-		<section class="recipe-drag-wrap" ref="dragTag">
+		<section class="recipe-drag-wrap" ref="drag-tag">
 			<drag @searchResult="passResult" @resetDrag="resetDrag" :ingredientData="ingredientData" :key="dragKey" />
 		</section>
-		<RecipeList v-if="serchResultRecipes.length"
-			:recipeList="serchResultRecipes"
+		<RecipeList v-if="searchResult.status"
+			:recipeList="searchResult.recipes"
 			>
-			<h2 ref="resultTag"  class="section-title">Recipes Search Results:</h2>
-			<h4>You got <span>{{serchResultRecipes.length}}</span> Recipes</h4>
+			<h2 ref="result-tag"  class="section-title">Recipes Search Results:</h2>
+			<h4>You got <span>{{searchResult.recipes.length}}</span> Recipes</h4>
 			<template v-slot:backTo>
-				<a class="back_to" @click="scrollPageTo('dragTag')"><h4>Back to <span>Search</span></h4></a>
+				<a class="back_to" @click="scrollPageTo('drag-tag')"><h4>Back to <span>Search</span></h4></a>
 			</template>
 		</RecipeList>
 		<section class="recipe-catalog-wrap">
@@ -20,18 +20,25 @@
 					:style="bgImg( key+`-title.jpg`)">
 					<h2 class="recipe-catalog-group-title" >{{ catalogs[key].title }}</h2>
 				</div>
-				<div v-for="(item, index) in catalogs[key].data"
+
+				<router-link v-for="(item, index) in catalogs[key].data"
+					:to="`/recipe/catalog/${key}/${item.itemID}/${item.item}`"
 					:key="item.Uniq_name"
 					:class="[cataStyle(index)]"
 					:style="bgImg( key+`-`+item.itemID+`.jpg`)"
 					class="recipe-catalog"
-					@click="searchRecipe(item.item, 'viewtimes', 'desc', 'recipe_catalog', [key,item.itemID])">
+					@click="scrollPageTo('recipe-catalog-tag')"
+					>
 					<p class="recipe-catalog-item">
 						{{item.item}}
 					</p>
-				</div>
+				</router-link>
 			</div>
 		</section>
+		<router-view
+			:key="$route.params.itemID"
+			ref="recipe-catalog-tag">
+		</router-view>
 	</div>
 </template>
 
@@ -58,8 +65,11 @@ export default {
 				}
 			},
 			ingredientData: [],
-			serchResultRecipes: {},
-			serchResultStatus: false,
+			searchResult: {
+				status: false,
+				recipes: []
+			},
+
 			dragKey: 0
 		}
 	},
@@ -75,8 +85,8 @@ export default {
 												order: "foodtype"})
     },
 	updated: function(){
-		if(this.serchResultRecipes.length){
-			this.scrollPageTo("resultTag")
+		if(this.searchResult.status){
+			this.scrollPageTo("result-tag")
 		}
 
 	},
@@ -93,19 +103,19 @@ export default {
 				return "w-2x"
 		},
 		passResult(res) {
-			if(res.status === "201"){
-				this.serchResultStatus = true
+			if(res.status === 201){
+				this.searchResult.status = true
+				this.searchResult.recipes = res.data
 			}
-			this.serchResultRecipes = res.data
+			console.log("res", res)
+			console.log("recipe result", this.searchResult)
 		},
 		resetDrag(result) {
-			this.serchResultRecipes = result
+			this.searchResult.recipes = result
+			this.searchResult.status = false
 			this.dragKey += 1
 		},
 	},
-	watch: {
-
-	}
 }
 </script>
 
@@ -117,6 +127,9 @@ export default {
 			.recipe-catalog {
 				width: calc(50% - 10px);
 			}
+		}
+		a {
+			display: block;
 		}
 		margin-top: 30px;
 		border: 2px solid $primary-g;

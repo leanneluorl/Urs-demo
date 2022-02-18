@@ -56,13 +56,13 @@
                                         > {{ item.Uniq_name }} </option>
                                     </select> -->
                                     <SelectBox v-if="locationGetter.length"
+                                        :id="'Location'+igd.SDID"
                                         :data-list="locationGetter"
                                         :list-key="'item'"
                                         :selected="{status: true, value: igd.LocationID}"
                                         :opt-group="{status: false}"
                                         :current="igd.LocationID"
-                                        v-bind="editLocation(igd.SDID, igd.LocationID)"
-                                        @custom-select="selectLocation"/>
+                                        />
                                 </div>
 								<input type="submit" value="Edit" class="edit" @click="editStockIGD(igd.SDID)">
 								<input type="submit" value="Delete" class="delete" @click="deleteUserStockIGD(igd.SDID)">
@@ -72,38 +72,34 @@
                         <div class="igd editor creator">
                             <form @submit.prevent
                                 class="igd editor__item"
+                                :key="formKey"
                             >
-                                <div class="custom-select">
-                                    <select v-model="creator.IngredientID" >
-                                        <optgroup v-for="(item, key) in groupBy(ingredient, 'Information')"
-                                                :key="key"
-                                                :label="key">
-                                            <option v-for="igd in item"
-                                                :value="igd.item"
-                                                :key="'IGD'+igd.itemID"
-                                            > {{ item.Uniq_name }}</option>
-                                        </optgroup>
-                                    </select>
+                                <div class="custom-select ingredient">
+                                    <SelectBox v-if="ingredientGetter.length"
+                                        id="createIGD"
+                                        :data-list="ingredientGetter"
+                                        :list-key="'item'"
+                                        :selected="{status: false, value: 'Ingredient...'}"
+                                        :opt-group="{status: true, by: 'Information'}"
+                                        current=""/>
+                                    <p v-if="error.createIGD" class="error">{{ error.createIGD }}</p>
                                 </div>
                                 <div>
                                     <input type="number" v-model="creator.Amount"
-                                            min="0" max="99999"
+                                            min="0" max="999999"
                                             /><span class="unit"></span>
+                                    <p v-if="error.createAmount" class="error">{{ error.createAmount }}</p>
                                 </div>
-                                <div class="custom-select">
-                                    <select v-model="creator.LocationID" >
-                                        <option
-                                            v-for="item in locationGetter"
-                                            :value="item.Uniq_name"
-                                            :key = item.Uniq_name
-                                        > {{ item.Uniq_name }} </option>
-                                    </select>
-                                    <!-- <SelectBox v-if="locationGetter.length"
+                                <div class="custom-select location">
+                                    <SelectBox v-if="locationGetter.length"
+                                        id="createLocation"
                                         :data-list="locationGetter"
                                         :list-key="'item'"
-                                        :selected="{status: true, value: igd.LocationID}"
+                                        :selected="{status: false, value: 'Location...'}"
                                         :opt-group="{status: false}"
-                                        @custom-select="selectLocation"/> -->
+                                        current=""
+                                        />
+                                    <p v-if="error.createLocation" class="error">{{ error.createLocation }}</p>
                                 </div>
 								<input type="submit" value="Create" class="create" @click="creatStockIGD()">
                             </form>
@@ -134,13 +130,18 @@ export default {
         return {
             isFetch: false,
 			LocationSelection: {},
-            error: {},
+            error: {
+                createIGD: "",
+                createLocation: "",
+                createAmount: "",
+            },
             // selected: {status: true, value: ''},
             creator: {
                 IngredientID: '',
                 Amount: '',
                 LocationID: ''
             },
+            formKey: 0
         };
     },
     created: async function() {
@@ -151,10 +152,10 @@ export default {
                 this.isFetch = true;
             }
         });
-        console.log('IGD',this.ingredient)
-        console.log('IGD',this.groupBy(this.ingredient, 'Information'))
-		console.log('IGD',Object.keys(this.groupBy(this.ingredient, 'Information')))
-		console.log('IGD',Object.keys(this.ingredient, 'Information'))
+        // console.log('IGD',this.ingredient)
+        // console.log('IGD',this.groupBy(this.ingredient, 'Information'))
+		// console.log('IGD',Object.keys(this.groupBy(this.ingredient, 'Information')))
+		// console.log('IGD',Object.keys(this.ingredient, 'Information'))
 
     },
     computed: {
@@ -168,12 +169,10 @@ export default {
         imgName(img) {
             return img.replace(/image\/|'/g, "");
         },
-		editStockIGD(SDID, e) {
+		editStockIGD(SDID) {
             // e.preventDefault();
             var Amount = document.getElementById('Amount'+SDID).value,
-                LocationID = document.querySelector('#Location'+SDID > 'ul' ); //document.getElementById('Location'+SDID)
-    console.log("LocationID", this.editLocation[SDID] )
-    console.log("target ID", e)
+                LocationID = document.getElementById('Location'+SDID).getAttribute('current');
             if( Amount>0 && Amount<999999) {
                 this.updateUserStockIGD({
                         SDID: SDID,
@@ -187,7 +186,6 @@ export default {
                 this.error.msg = "Number Should be....";
                 console.log(this.error)
             }
-
 
 		},
         userStockIGDdata(groupByItem) {
@@ -216,20 +214,40 @@ export default {
 
             e.preventDefault();
         },
-        selectLocation(option, e) {
-            this.LocationSelection = option
-            // e.current = option
-            console.log("this.$attrs",this)
-            console.log("this.selected",e)
+        creatStockIGD() {
+            this.error = {
+                createIGD: "",
+                createAmount: "",
+                createLocation: ""
+            }
+            this.creator.IngredientID = document.getElementById('createIGD').getAttribute('current');
+            this.creator.LocationID = document.getElementById('createLocation').getAttribute('current');
+            console.log("this.creator.Amount",this.creator.Amount)
+            if(!this.creator.IngredientID){
+                this.error.createIGD = "Please select the Ingredient"
+            }
+            if(!this.creator.LocationID){
+                this.error.createLocation = "Please select the Location"
+            }
+            if(!this.creator.Amount){
+                this.error.createAmount = "Please enter number..."
+            }
+            if(this.creator.IngredientID && this.creator.LocationID && this.creator.Amount ){
+                this.createUserStockIGD(this.creator)
+                this.formKey += 1
+                this.creator.Amount = ""
+            }
+            console.log("creator",this.creator);
+            console.log("error",this.error);
         }
     },
     watch: {
-        userStockIGD: {
-            immediate: true,
-            handler() {
-                console.log("Stock watch",this.userStockIGD)
-            }
-        }
+        // userStockIGD: {
+        //     immediate: true,
+        //     handler() {
+        //         console.log("Stock watch",this.userStockIGD)
+        //     }
+        // }
     }
 };
 </script>
@@ -363,36 +381,43 @@ export default {
                         &.edit {
                             background-color: $primary-g;
                         }
-                    }
-                    select {
-                        width: 100%;
-                        line-height: 2.35rem;
-                        optgroup{
-                            background:#000;
-                            color:#fff;
+                        &.create {
+                            background-color: $primary-g-dark;
                         }
-                        option{
-                            color: $primary-g;
+                        &[type="submit"]{
+                            cursor: pointer;
                         }
-                        /* // A reset of styles, including removing the default dropdown arrow
-                        appearance: none;
-                        // Additional resets for further consistency
-                        background-color: transparent;
-                        border: none;
-                        font-family: inherit;
-                        font-size: inherit;
-                        cursor: inherit;
-                        line-height: inherit; */
                     }
+
                     .custom-select {
                         width: 20%;
                         line-height: 2.4rem;
                         @extend .select-css;
+                        .selector {
+                            .option-group{
+                                p{
+                                    padding-left: 5px;
+                                    background-color: $primary-g-50;
+                                    width: 100%;
+                                }
+                                ul {
+                                    li {
+                                        padding-left: 20%;
+                                        text-align: left;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
             .creator {
-
+                .error {
+                    position: absolute;
+                    font-size: 0.8rem;
+                    width: 100%;
+                    color: $error;
+                }
             }
         }
     }

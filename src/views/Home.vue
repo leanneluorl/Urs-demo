@@ -42,14 +42,6 @@ export default {
 										sort: "desc"})
 		this.homeRecipes = this.homeRecipes.slice(0,8)
     },
-	computed: {
-
-	},
-	methods: {
-
-	},
-	watch: {
-    }
 }
 </script>
 

@@ -23,12 +23,14 @@ export const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Recipe.vue')
-  },
-  {
-    path: '/recipe_catalog',
-    name: 'RecipeCatalog',
-    component: () => import('../views/RecipeCatalog.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Recipe.vue'),
+    children:[
+      {
+        path: 'catalog/:category/:itemID/:item',
+        name: 'RecipeCatalog',
+        component: () => import('../views/RecipeCatalog.vue')
+      },
+    ]
   },
   {
     path: '/recipe/:recipeID',
@@ -62,8 +64,25 @@ export const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'hash',
-  routes
+  mode: 'history',
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    console.log('to',to.name)
+    console.log('to',to)
+    console.log('from',from)
+    if(to.name === 'RecipeCatalog'){
+      console.log("test")
+      return {
+        el:  this.$refs['recipe-catalog-tag'],
+        top: 0,
+        // behavior: 'smooth',
+      }
+    }else if (savedPosition) {
+      return savedPosition
+    }else{
+      return { x: 0, y: 0 };
+    }
+  }
 })
 
 
